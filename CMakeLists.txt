@@ -11,9 +11,9 @@ set(CMAKE_PREFIX_PATH $ENV{QT_PATH})
 set(CMAKE_COLOR_MAKEFILE ON)
 
 #指定编译字符集
-if(WIN32)
+if(MSVC)
 add_compile_options(/utf-8)
-endif(WIN32)
+endif(MSVC)
 
 #enable project folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -33,7 +33,6 @@ endif(WIN32)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
-find_package(Qt5WebEngineWidgets REQUIRED)
 find_package(Qt5Network REQUIRED)
 
 #包含导出头文件模块

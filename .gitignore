@@ -1,2 +1,4 @@
 # build dir
-./build/
+build/
+.vscode/
+src/projects/client_win/app/message/.vscode/

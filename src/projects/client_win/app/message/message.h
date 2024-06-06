@@ -1,13 +1,11 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include "serializable.h"
 #include <qobject.h>
-#include <qstring.h>
 
-class Message : public QObject
+class Message : public Serializable
 {
-	Q_OBJECT
-
 public:
 	Q_INVOKABLE Message(QObject* parent = nullptr);
 	Q_INVOKABLE Message(const Message& other);

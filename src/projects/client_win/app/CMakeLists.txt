@@ -46,9 +46,9 @@ link_directories(
 )
 
 #指定编译字符集
-if(WIN32)
+if(MSVC)
 add_compile_options(/utf-8)
-endif(WIN32)
+endif(MSVC)
 
 #预编译宏
 #add_definitions(XXXX)
