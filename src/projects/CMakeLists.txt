@@ -1,1 +1,2 @@
 ADD_SUBDIRECTORY(client_win)
+ADD_SUBDIRECTORY(test)

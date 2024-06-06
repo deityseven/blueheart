@@ -7,31 +7,40 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #全局moc
 set(CMAKE_AUTOMOC ON)
 
+set(TRANSMITCENTER_SRC
+    transmitcenter/transmitcenter.h
+    transmitcenter/transmitcenter.cpp
+)
+
 set(MESSAGE_SRC
     message/message.h
     message/message.cpp
     message/signinrequest.h
     message/signinrequest.cpp
-    message/signinresponse.h
-    message/signinresponse.cpp
+    #message/signinresponse.h
+    #message/signinresponse.cpp
     message/checknumber.h
     message/checknumber.cpp
-    message/loginrequest.h
-    message/loginrequest.cpp
-    message/loginresponse.h
-    message/loginresponse.cpp
+    message/serializable.h
+    message/serializable.cpp
+    #message/loginrequest.h
+    #message/loginrequest.cpp
+    #message/loginresponse.h
+    #message/loginresponse.cpp
 )
 
 set(CLIENT_WIN_SRC
-    usecartime.h
-    usecartime.cpp
+    #usecartime.h
+    #usecartime.cpp
 )
 
 #筛选显示
 source_group(message FILES ${MESSAGE_SRC})
+source_group(transmitcenter FILES ${TRANSMITCENTER_SRC})
 
 set(SRCS 
 	${MESSAGE_SRC}
+	${TRANSMITCENTER_SRC}
 	${CLIENT_WIN_SRC}
 )
 

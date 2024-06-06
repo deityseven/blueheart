@@ -5,44 +5,103 @@
 
 #include <json/json.hpp>
 #include <QMetaProperty>
+#include <qarraydata.h>
+#include <qdebug.h>
 
-std::vector<std::string> userDefineType = {
-"Message",
-"CheckNumber"
-};
+Serializable::Serializable(QObject* parent)
+	:QObject(parent)
+{
+}
 
-Serializable::Serializable(QObject* parent = nullptr)
-    :QObject(parent)
+Serializable::Serializable(const Serializable& other)
+{
+}
+
+Serializable::~Serializable()
 {
 }
 
 QString Serializable::serialization()
 {
-    nlohmann::json root;
+	nlohmann::json root;
 
-    auto metaObject = this->metaObject();
-    root["objectType"] = metaObject->className();
+	auto metaObject = this->metaObject();
+	root["typeName"] = metaObject->className();
 
-    for(auto i = 0; metaObject->propertyCount(); ++i)
-    {
-        QMetaProperty property = metaObject->property(i);
-        auto propertyName = property.name();
-        auto propertyTypeName = property.typeName();
-        auto typeNameIter = std::find(userDefineType.begin(), userDefineType.end(), propertyTypeName);
-        if(typeNameIter != userDefineType.end())
-        {
-            QString result;
-            QGenericReturnArgument ret("result", &result);
-            QMetaObject::invokeMethod(qobject_cast<QObject*>(this), "serialization" , Qt::DirectConnection, ret);
-            root[propertyName] = result.toStdString();
-        }
-        root[propertyName] = this->property(propertyName).toString().toStdString();
-    }
+	for (auto i = 0; i < metaObject->propertyCount(); ++i)
+	{
+		QMetaProperty property = metaObject->property(i);
+		auto propertyName = property.name();
+		if (strcmp(propertyName, "objectName") == 0) continue;
+		if (strcmp(propertyName, "typeName") == 0) continue;
 
-    return QString::fromStdString(root.dump());
+		auto propertyTypeName = property.typeName();
+		if (property.type() == QVariant::UserType)
+		{
+			QString result;
+			QMetaObject::invokeMethod(static_cast<QObject*>(this->property(propertyName).data()), "serialization", Q_RETURN_ARG(QString, result));
+			root[propertyName] = nlohmann::json::parse(result.toStdString());
+		}
+		else
+		{
+			root[propertyName] = this->property(propertyName).toString().toStdString();
+		}
+	}
+
+	return QString::fromStdString(root.dump());
 }
 
 void Serializable::deserialization(QString data)
 {
-    return void();
+	auto root = nlohmann::json::parse(data.toStdString());
+
+	for (auto iter = root.begin(); iter != root.end(); ++iter)
+	{
+		auto key = iter.key();
+		auto value = iter.value();
+		if (value.is_object())
+		{
+			std::string values = value.dump();
+			QString arg = QString::fromStdString(value.dump());
+
+			auto propertyVariant = this->property(key.c_str());
+			auto propertyObject = static_cast<QObject*>(propertyVariant.data());
+			QMetaObject::invokeMethod(propertyObject, "deserialization", Q_ARG(QString, arg));
+			this->setProperty(key.c_str(), propertyVariant);
+		}
+		else
+		{
+			if (value.type() == nlohmann::json::value_t::null)
+			{
+			}
+			else if (value.type() == nlohmann::json::value_t::array)
+			{
+			}
+			else if (value.type() == nlohmann::json::value_t::string)
+			{
+				this->setProperty(key.c_str(), QString::fromStdString(value.get<std::string>()));
+			}
+			else if (value.type() == nlohmann::json::value_t::boolean)
+			{
+				this->setProperty(key.c_str(), value.get<bool>());
+			}
+			else if (value.type() == nlohmann::json::value_t::number_integer)
+			{
+				this->setProperty(key.c_str(), value.get<int>());
+			}
+			else if (value.type() == nlohmann::json::value_t::number_unsigned)
+			{
+				this->setProperty(key.c_str(), value.get<unsigned int>());
+			}
+			else if (value.type() == nlohmann::json::value_t::number_float)
+			{
+				this->setProperty(key.c_str(), value.get<double>());
+			}
+		}
+	}
+}
+
+Serializable& Serializable::operator=(const Serializable&)
+{
+	return *this;
 }
