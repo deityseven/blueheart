@@ -3,7 +3,17 @@ QWidget
     background: rgb(255, 85, 0);
 }
 
+QLabel
+{
+    font-size: 9pt;
+}
+
 QStackedWidget#mainWidget
 {
     background: blue;
+
+    min-width: 450 em;
+    max-width: 450 em;
+    min-height: 800 em;
+    max-height: 800 em;
 }
