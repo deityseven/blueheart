@@ -1,4 +1,4 @@
-project(client_win)
+project(core)
 
 #C++标准 
 set(CMAKE_CXX_STANDARD 11)
@@ -7,38 +7,34 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #全局moc
 set(CMAKE_AUTOMOC ON)
 
-set(MESSAGE_SRC
-    message/message.h
-    message/message.cpp
-    message/signinrequest.h
-    message/signinrequest.cpp
-    #message/signinresponse.h
-    #message/signinresponse.cpp
-    message/checknumber.h
-    message/checknumber.cpp
-    #message/loginrequest.h
-    #message/loginrequest.cpp
-    #message/loginresponse.h
-    #message/loginresponse.cpp
+set(INCLUDE_DIR include)
+set(SRC_DIR src)
+
+set(TRANSMITCENTER_SRC
+    ${INCLUDE_DIR}/transmitcenter/transmitcenter.h
+    ${INCLUDE_DIR}/transmitcenter/serializable.h
+    ${SRC_DIR}/transmitcenter/transmitcenter.cpp
+    ${SRC_DIR}/transmitcenter/serializable.cpp
 )
 
-set(CLIENT_WIN_SRC
-    #usecartime.h
-    #usecartime.cpp
+set(JSON_SRC
+    ${INCLUDE_DIR}/json/json.hpp
 )
 
 #筛选显示
-source_group(message FILES ${MESSAGE_SRC})
+source_group(json FILES ${MESSAGE_SRC})
+source_group(transmitcenter FILES ${TRANSMITCENTER_SRC})
 
 set(SRCS 
-	${MESSAGE_SRC}
-	${CLIENT_WIN_SRC}
+	${TRANSMITCENTER_SRC}
+	${JSON_SRC}
 )
+
+message(${CMAKE_CURRENT_SOURCE_DIR}/${INCLUDE_DIR})
 
 #包含目录
 include_directories(${CMAKE_CURRENT_BINARY_DIR}
-					${CMAKE_SOURCE_DIR}/external
-					${CMAKE_SOURCE_DIR}/src/projects/core/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/${INCLUDE_DIR}
 )
 
 #库目录
@@ -75,5 +71,4 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_ENVIRONMENT "Path=$(Pat
 #链接库
 target_link_libraries(${PROJECT_NAME}
   ${Qt5Core_LIBRARIES}
-  core
 )

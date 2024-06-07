@@ -1,8 +1,8 @@
 #include <qapplication.h>
 
-#include "client_win/app/transmitcenter/transmitcenter.h"
+#include <transmitcenter/transmitcenter.h>
+#include <transmitcenter/serializable.h>
 #include "client_win/app/message/checknumber.h"
-#include "client_win/app/message/serializable.h"
 #include "client_win/app/message/signinrequest.h"
 #include <qdebug.h>
 
@@ -32,7 +32,12 @@ void RefTest(int argc, char* argv[])
     auto json1 = TransmitCenter::instance().toJson(&sr);
     auto object2 = TransmitCenter::instance().fromJson(json1);
     auto json2 = TransmitCenter::instance().toJson(object2);
+    qDebug() << json2.c_str();
+
+    a.exec();
 }
+
+#include <stdio.h>
 
 int main(int argc, char *argv[])
 {
@@ -44,6 +49,7 @@ int main(int argc, char *argv[])
     //    spdlog::info("{}", client.getCurrentUser()->toJson());
     //}
 
+    printf("main...");
 	RefTest(argc, argv);
 
 	return 0;

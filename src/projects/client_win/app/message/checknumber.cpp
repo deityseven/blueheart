@@ -1,47 +1,46 @@
 #include "checknumber.h"
 
-CheckNumber::CheckNumber(const CheckNumber &other)
+CheckNumber::CheckNumber(QObject * parent)
+	:Message(parent)
 {
-    this->_userName = other._userName;
-    this->_phone = other._phone;
-    this->_email = other._email;
 }
 
-CheckNumber::CheckNumber(QObject *parent)
-    :Message(parent)
+CheckNumber::CheckNumber(const CheckNumber& other)
 {
+	this->_userName = other._userName;
+	this->_phone = other._phone;
+	this->_email = other._email;
+
 }
 
 CheckNumber::~CheckNumber()
 {
 }
 
-Q_INVOKABLE QString CheckNumber::userName()
+QString CheckNumber::userName()
 {
-    return Q_INVOKABLE this->_userName;
+	return this->_userName;
 }
 
-Q_INVOKABLE QString CheckNumber::phone()
+void CheckNumber::setUserName(QString data)
 {
-    return Q_INVOKABLE this->_phone;
+	this->_userName = data;
+}
+QString CheckNumber::phone()
+{
+	return this->_phone;
 }
 
-Q_INVOKABLE QString CheckNumber::email()
+void CheckNumber::setPhone(QString data)
 {
-    return Q_INVOKABLE this->_email;
+	this->_phone = data;
+}
+QString CheckNumber::email()
+{
+	return this->_email;
 }
 
-Q_INVOKABLE void CheckNumber::setUserName(QString data)
+void CheckNumber::setEmail(QString data)
 {
-    this->_userName = data;
-}
-
-Q_INVOKABLE void CheckNumber::setPhone(QString data)
-{
-    this->_phone = data;
-}
-
-Q_INVOKABLE void CheckNumber::setEmail(QString data)
-{
-    this->_email = data;
+	this->_email = data;
 }

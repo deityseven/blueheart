@@ -1,4 +1,4 @@
-#include "transmitcenter.h"
+#include <transmitcenter/transmitcenter.h>
 #include <json/json.hpp>
 #include <QMetaProperty>
 

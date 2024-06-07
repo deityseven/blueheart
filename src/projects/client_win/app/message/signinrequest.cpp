@@ -1,64 +1,56 @@
 #include "signinrequest.h"
 
-SigninRequest::SigninRequest(const SigninRequest &other)
+SigninRequest::SigninRequest(QObject * parent)
+	:Message(parent)
 {
 }
 
-SigninRequest::SigninRequest(QObject *parent)
+SigninRequest::SigninRequest(const SigninRequest& other)
 {
+	this->_userName = other._userName;
+	this->_phone = other._phone;
+	this->_email = other._email;
+	this->_checkNumber = other._checkNumber;
+
 }
 
 SigninRequest::~SigninRequest()
 {
 }
 
-
-Q_INVOKABLE QString SigninRequest::userName()
+QString SigninRequest::userName()
 {
-    return Q_INVOKABLE this->_userName;
+	return this->_userName;
 }
 
-Q_INVOKABLE QString SigninRequest::phone()
+void SigninRequest::setUserName(QString data)
 {
-    return Q_INVOKABLE this->_phone;
+	this->_userName = data;
+}
+QString SigninRequest::phone()
+{
+	return this->_phone;
 }
 
-Q_INVOKABLE QString SigninRequest::email()
+void SigninRequest::setPhone(QString data)
 {
-    return Q_INVOKABLE this->_email;
+	this->_phone = data;
+}
+QString SigninRequest::email()
+{
+	return this->_email;
 }
 
-Q_INVOKABLE QString SigninRequest::checkNumber()
+void SigninRequest::setEmail(QString data)
 {
-    return Q_INVOKABLE this->_checkNumber;
+	this->_email = data;
+}
+QString SigninRequest::checkNumber()
+{
+	return this->_checkNumber;
 }
 
-Q_INVOKABLE CheckNumber SigninRequest::ch()
+void SigninRequest::setCheckNumber(QString data)
 {
-    return Q_INVOKABLE this->_ch;
-}
-
-Q_INVOKABLE void SigninRequest::setUserName(QString data)
-{
-    this->_userName = data;
-}
-
-Q_INVOKABLE void SigninRequest::setPhone(QString data)
-{
-    this->_phone = data;
-}
-
-Q_INVOKABLE void SigninRequest::setEmail(QString data)
-{
-    this->_email = data;
-}
-
-Q_INVOKABLE void SigninRequest::setCheckNumber(QString data)
-{
-    this->_checkNumber = data;
-}
-
-Q_INVOKABLE void SigninRequest::setCh(CheckNumber data)
-{
-    this->_ch = data;
+	this->_checkNumber = data;
 }

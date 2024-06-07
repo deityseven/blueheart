@@ -1,2 +1,4 @@
 ADD_SUBDIRECTORY(client_win)
+ADD_SUBDIRECTORY(core)
 ADD_SUBDIRECTORY(test)
+ADD_SUBDIRECTORY(serializabletool)

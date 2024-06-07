@@ -1,7 +1,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include "serializable.h"
+#include <transmitcenter/serializable.h>
 
 class Message : public Serializable
 {
