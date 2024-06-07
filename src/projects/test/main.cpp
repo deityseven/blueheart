@@ -27,7 +27,6 @@ void RefTest(int argc, char* argv[])
     sr.setEmail("456");
     sr.setUserName("XXX");
     sr.setCheckNumber("999");
-    sr.setCh(cn);
 
     auto json1 = TransmitCenter::instance().toJson(&sr);
     auto object2 = TransmitCenter::instance().fromJson(json1);
