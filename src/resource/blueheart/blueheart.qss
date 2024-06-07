@@ -1,0 +1,9 @@
+QWidget
+{
+    background: rgb(255, 85, 0);
+}
+
+QStackedWidget#mainWidget
+{
+    background: blue;
+}

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/blueheart">
+        <file>blueheart.qss</file>
+    </qresource>
+</RCC>

@@ -1,4 +1,4 @@
-project(client_win_gui)
+project(blueheart)
 
 #C++标准 
 set(CMAKE_CXX_STANDARD 11)
@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #全局moc
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 #使用rcc处理qrc
 set(IMAGE_RCCS ${CMAKE_SOURCE_DIR}/src/resource/${PROJECT_NAME}/resource.qrc)
@@ -24,6 +25,8 @@ set(UI_SRC
 )
 
 set(WIDGET_SRC
+	blueheart.h
+	blueheart.cpp
 )
 
 set(MAIN_SRC
@@ -53,9 +56,9 @@ link_directories(
 )
 
 #指定编译字符集
-if(WIN32)
+if(MSVC)
 add_compile_options(/utf-8)
-endif(WIN32)
+endif(MSVC)
 
 #预编译宏
 #add_definitions(XXXX)
@@ -83,4 +86,5 @@ target_link_libraries(${PROJECT_NAME}
   ${Qt5Core_LIBRARIES}
   ${Qt5Gui_LIBRARIES}
   ${Qt5Widgets_LIBRARIES}
+  ${Qt5Network_LIBRARIES}
 )
