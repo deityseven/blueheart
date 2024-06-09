@@ -8,26 +8,34 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
 set(INCLUDE_DIR include)
-set(SRC_DIR src)
+set(SOURCEC_DIR src)
 
 set(TRANSMITCENTER_SRC
     ${INCLUDE_DIR}/transmitcenter/transmitcenter.h
     ${INCLUDE_DIR}/transmitcenter/serializable.h
-    ${SRC_DIR}/transmitcenter/transmitcenter.cpp
-    ${SRC_DIR}/transmitcenter/serializable.cpp
+    ${SOURCEC_DIR}/transmitcenter/transmitcenter.cpp
+    ${SOURCEC_DIR}/transmitcenter/serializable.cpp
 )
 
 set(JSON_SRC
     ${INCLUDE_DIR}/json/json.hpp
 )
 
+set(PUGIXML_SRC
+    ${INCLUDE_DIR}/pugixml/pugiconfig.hpp
+    ${INCLUDE_DIR}/pugixml/pugixml.hpp
+    ${SOURCEC_DIR}/pugixml/pugixml.cpp
+)
+
 #筛选显示
 source_group(json FILES ${MESSAGE_SRC})
 source_group(transmitcenter FILES ${TRANSMITCENTER_SRC})
+source_group(pugixml FILES ${PUGIXML_SRC})
 
 set(SRCS 
 	${TRANSMITCENTER_SRC}
 	${JSON_SRC}
+	${PUGIXML_SRC}
 )
 
 message(${CMAKE_CURRENT_SOURCE_DIR}/${INCLUDE_DIR})
