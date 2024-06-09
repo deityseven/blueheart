@@ -54,6 +54,41 @@ set(UTIL_SRC
     ${SOURCEC_DIR}/util/string_util.cpp
 )
 
+set(CONFIGFILE_SRC
+    ${INCLUDE_DIR}/configfile/config_file.h
+    ${SOURCEC_DIR}/configfile/config_file.cpp
+)
+
+set(PARSER_SRC
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/config_file_content_parser.h
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/config_file_content_parser_handle.h
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/config_file_content_parser_handle_builder.h
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/ini_parser_handle.h
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/json_parser_handle.h
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/xml_parser_handle.h
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/config_file_content_parser.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/config_file_content_parser_handle.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/config_file_content_parser_handle_builder.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/ini_parser_handle.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/json_parser_handle.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/parser/xml_parser_handle.cpp
+)
+
+set(BUILDER_SRC
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/config_file_content_builder.h
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/config_file_content_builder_handle.h
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/config_file_content_builder_handle_builder.h
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/ini_builder_handle.h
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/json_builder_handle.h
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/xml_builder_handle.h
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/config_file_content_builder.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/config_file_content_builder_handle.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/config_file_content_builder_handle_builder.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/ini_builder_handle.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/json_builder_handle.cpp
+    ${SOURCEC_DIR}/configfile/parser_builder/builder/xml_builder_handle.cpp
+)
+
 
 #筛选显示
 source_group(json FILES ${MESSAGE_SRC})
@@ -62,6 +97,9 @@ source_group(pugixml FILES ${PUGIXML_SRC})
 source_group(http FILES ${HTTP_SRC})
 source_group(util FILES ${UTIL_SRC})
 source_group(widget FILES ${WIDGET_SRC})
+source_group(configfile FILES ${CONFIGFILE_SRC})
+source_group(configfile/parser FILES ${PARSER_SRC})
+source_group(configfile/builder FILES ${BUILDER_SRC})
 
 set(SRCS 
 	${TRANSMITCENTER_SRC}
@@ -70,6 +108,9 @@ set(SRCS
 	${HTTP_SRC}
 	${UTIL_SRC}
 	${WIDGET_SRC}
+	${CONFIGFILE_SRC}
+	${PARSER_SRC}
+	${BUILDER_SRC}
 )
 
 message(${CMAKE_CURRENT_SOURCE_DIR}/${INCLUDE_DIR})
