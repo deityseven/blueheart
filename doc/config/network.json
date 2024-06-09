@@ -1,0 +1,17 @@
+{
+    "CheckNumberServer" : 
+    {
+        "host" : "",
+        "port" : 4452
+    },
+    "EmailSender" :
+    {
+        "senderEmail" : "",
+        "senderKey" : "",
+        "recverEmail" : "",
+        "theme" : "",
+        "emailContent" : "",
+        "emailServerHost" : "smtp.qq.com",
+        "emailServerPort" : "22"
+    }
+}

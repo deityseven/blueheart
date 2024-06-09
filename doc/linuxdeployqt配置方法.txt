@@ -1,0 +1,9 @@
+chmod 777 linuxdeployqt
+mv linuxdeployqt /usr/local/bin
+vim /etc/profile
+
+export QT_PATH=/opt/Qt5.14.2/5.14.2/gcc_64
+export PATH=$QT_PATH/bin:$PATH
+export LD_LIBRARY_PATH=$QT_PATH/lib:LD_LIBRARY_PATH
+export QT_PLUGIN_PATH=$QT_PATH/plugins:QT_PLUGIN_PATH
+export QML2_IMPORT_PATH=$QT_PATH/qml:QML2_IMPORT_PATH
