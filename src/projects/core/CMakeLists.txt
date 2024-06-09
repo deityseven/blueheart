@@ -21,6 +21,10 @@ set(JSON_SRC
     ${INCLUDE_DIR}/json/json.hpp
 )
 
+set(WIDGET_SRC
+    ${INCLUDE_DIR}/widget/widgetinit.h
+)
+
 set(PUGIXML_SRC
     ${INCLUDE_DIR}/pugixml/pugiconfig.hpp
     ${INCLUDE_DIR}/pugixml/pugixml.hpp
@@ -50,12 +54,14 @@ set(UTIL_SRC
     ${SOURCEC_DIR}/util/string_util.cpp
 )
 
+
 #筛选显示
 source_group(json FILES ${MESSAGE_SRC})
 source_group(transmitcenter FILES ${TRANSMITCENTER_SRC})
 source_group(pugixml FILES ${PUGIXML_SRC})
 source_group(http FILES ${HTTP_SRC})
 source_group(util FILES ${UTIL_SRC})
+source_group(widget FILES ${WIDGET_SRC})
 
 set(SRCS 
 	${TRANSMITCENTER_SRC}
@@ -63,6 +69,7 @@ set(SRCS
 	${PUGIXML_SRC}
 	${HTTP_SRC}
 	${UTIL_SRC}
+	${WIDGET_SRC}
 )
 
 message(${CMAKE_CURRENT_SOURCE_DIR}/${INCLUDE_DIR})
