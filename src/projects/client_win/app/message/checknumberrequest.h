@@ -1,9 +1,9 @@
-#ifndef CHECKNUMBER_H
-#define CHECKNUMBER_H
+#ifndef CHECKNUMBERREQUEST_H
+#define CHECKNUMBERREQUEST_H
 
 #include "message.h"
 
-class CheckNumber : public Message
+class CheckNumberRequest : public Message
 {
 	Q_OBJECT
 
@@ -12,9 +12,9 @@ class CheckNumber : public Message
 	Q_PROPERTY(QString email READ email WRITE setEmail)
 
 public:
-	Q_INVOKABLE CheckNumber(QObject* parent = nullptr);
-	Q_INVOKABLE CheckNumber(const CheckNumber& other);
-	Q_INVOKABLE ~CheckNumber();
+	Q_INVOKABLE CheckNumberRequest(QObject* parent = nullptr);
+	Q_INVOKABLE CheckNumberRequest(const CheckNumberRequest& other);
+	Q_INVOKABLE ~CheckNumberRequest();
 
 	Q_INVOKABLE QString userName();
 	Q_INVOKABLE void setUserName(QString data);
@@ -31,6 +31,6 @@ private:
 
 };
 
-Q_DECLARE_METATYPE(CheckNumber)
+Q_DECLARE_METATYPE(CheckNumberRequest)
 
-#endif // !CHECKNUMBER_H
+#endif // !CHECKNUMBERREQUEST_H

@@ -15,14 +15,14 @@ public:
 	Q_INVOKABLE SigninResponse(const SigninResponse& other);
 	Q_INVOKABLE ~SigninResponse();
 
-	Q_INVOKABLE unsigned int code();
-	Q_INVOKABLE void setCode(unsigned int data);
+	Q_INVOKABLE uint code();
+	Q_INVOKABLE void setCode(uint data);
 	Q_INVOKABLE QString msg();
 	Q_INVOKABLE void setMsg(QString data);
 
 
 private:
-	unsigned int _code;
+	uint _code;
 	QString _msg;
 
 };

@@ -16,12 +16,12 @@ SigninResponse::~SigninResponse()
 {
 }
 
-unsigned int SigninResponse::code()
+uint SigninResponse::code()
 {
 	return this->_code;
 }
 
-void SigninResponse::setCode(unsigned int data)
+void SigninResponse::setCode(uint data)
 {
 	this->_code = data;
 }

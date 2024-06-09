@@ -12,14 +12,16 @@ set(MESSAGE_SRC
     message/message.cpp
     message/signinrequest.h
     message/signinrequest.cpp
-    #message/signinresponse.h
-    #message/signinresponse.cpp
-    message/checknumber.h
-    message/checknumber.cpp
-    #message/loginrequest.h
-    #message/loginrequest.cpp
-    #message/loginresponse.h
-    #message/loginresponse.cpp
+    message/signinresponse.h
+    message/signinresponse.cpp
+    message/checknumberrequest.h
+    message/checknumberrequest.cpp
+    message/checknumberresponse.h
+    message/checknumberresponse.cpp
+    message/loginrequest.h
+    message/loginrequest.cpp
+    message/loginresponse.h
+    message/loginresponse.cpp
 )
 
 set(CLIENT_WIN_SRC
