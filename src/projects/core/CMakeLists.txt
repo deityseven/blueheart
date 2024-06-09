@@ -27,15 +27,26 @@ set(PUGIXML_SRC
     ${SOURCEC_DIR}/pugixml/pugixml.cpp
 )
 
+set(HTTP_SRC
+    ${INCLUDE_DIR}/http/httplib.h
+    ${INCLUDE_DIR}/http/httpclientbase.h
+    ${INCLUDE_DIR}/http/httpserverbase.h
+    ${INCLUDE_DIR}/http/httpserverhandel.h
+    ${SOURCEC_DIR}/http/httpclientbase.cpp
+    ${SOURCEC_DIR}/http/httpserverbase.cpp
+)
+
 #筛选显示
 source_group(json FILES ${MESSAGE_SRC})
 source_group(transmitcenter FILES ${TRANSMITCENTER_SRC})
 source_group(pugixml FILES ${PUGIXML_SRC})
+source_group(http FILES ${HTTP_SRC})
 
 set(SRCS 
 	${TRANSMITCENTER_SRC}
 	${JSON_SRC}
 	${PUGIXML_SRC}
+	${HTTP_SRC}
 )
 
 message(${CMAKE_CURRENT_SOURCE_DIR}/${INCLUDE_DIR})
