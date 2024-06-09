@@ -36,17 +36,33 @@ set(HTTP_SRC
     ${SOURCEC_DIR}/http/httpserverbase.cpp
 )
 
+set(UTIL_SRC
+    ${INCLUDE_DIR}/util/file_util.h
+    ${INCLUDE_DIR}/util/platform_util.h
+    ${INCLUDE_DIR}/util/random_number.h
+    ${INCLUDE_DIR}/util/random_util.hpp
+    ${INCLUDE_DIR}/util/string_util.h
+    ${INCLUDE_DIR}/util/platform_define.h
+    ${INCLUDE_DIR}/util/threadpool.hpp
+    ${SOURCEC_DIR}/util/file_util.cpp
+    ${SOURCEC_DIR}/util/platform_util.cpp
+    ${SOURCEC_DIR}/util/random_number.cpp
+    ${SOURCEC_DIR}/util/string_util.cpp
+)
+
 #筛选显示
 source_group(json FILES ${MESSAGE_SRC})
 source_group(transmitcenter FILES ${TRANSMITCENTER_SRC})
 source_group(pugixml FILES ${PUGIXML_SRC})
 source_group(http FILES ${HTTP_SRC})
+source_group(util FILES ${UTIL_SRC})
 
 set(SRCS 
 	${TRANSMITCENTER_SRC}
 	${JSON_SRC}
 	${PUGIXML_SRC}
 	${HTTP_SRC}
+	${UTIL_SRC}
 )
 
 message(${CMAKE_CURRENT_SOURCE_DIR}/${INCLUDE_DIR})
