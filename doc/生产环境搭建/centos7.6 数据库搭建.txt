@@ -1,0 +1,18 @@
+mkdir temp
+cd temp
+wget https://cdn.mysql.com//Downloads/MySQL-8.4/mysql-8.4.0-1.el7.x86_64.rpm-bundle.tar
+mkdir mysql_rpm
+tar -xvf mysql-8.4.0-1.el7.x86_64.rpm-bundle.tar
+cd mysql_rpm
+yum install -y ./*
+mysqld --initialize
+cd /var/lib
+chmod -R 777 ./mysql
+systemctl start mysqld
+cat /var/log/mysqld.log          A temporary password is generated for root@localhost: ZD;WcOkQF6*_
+mysql -u root -p
+ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
+use mysql;
+update user set host = '%' where user = 'root';
+flush privileges;
+
