@@ -1,0 +1,1 @@
+vmhgfs-fuse .host:/ /root/shard

@@ -1,10 +1,23 @@
 #include <qapplication.h>
 #include <qdebug.h>
 #include "blueheart.h"
+#include <message/all>
 
+void initMessage()
+{
+    qRegisterMetaType<Message>("Message");
+    qRegisterMetaType<CheckNumberRequest>("CheckNumberRequest");
+    qRegisterMetaType<CheckNumberResponse>("CheckNumberResponse");
+    qRegisterMetaType<LoginRequest>("LoginRequest");
+    qRegisterMetaType<LoginResponse>("LoginResponse");
+    qRegisterMetaType<SigninRequest>("SigninRequest");
+    qRegisterMetaType<SigninResponse>("SigninResponse");
+}
 void RefTest(int argc, char* argv[])
 {
 	QApplication a(argc, argv);
+
+    initMessage();
 
     BlueHeart bh;
     bh.show();

@@ -27,6 +27,8 @@ set(UI_SRC
 set(WIDGET_SRC
 	blueheart.h
 	blueheart.cpp
+	signin.h
+	signin.cpp
 )
 
 set(MAIN_SRC
@@ -46,7 +48,8 @@ source_group(ui FILES ${UI_SRC})
 #包含目录
 include_directories(${CMAKE_CURRENT_BINARY_DIR}
 					${CMAKE_SOURCE_DIR}/external
-					${CMAKE_SOURCE_DIR}/external/common
+					${CMAKE_SOURCE_DIR}/src/projects/client_win/app
+					${CMAKE_SOURCE_DIR}/src/projects/core/include
 )
 
 #库目录
@@ -87,4 +90,5 @@ target_link_libraries(${PROJECT_NAME}
   ${Qt5Gui_LIBRARIES}
   ${Qt5Widgets_LIBRARIES}
   ${Qt5Network_LIBRARIES}
+  client_win
 )

@@ -151,7 +151,14 @@ add_library(${PROJECT_NAME} STATIC ${SRCS} ${UI_FILES} ${IMAGE_RCC_SRCS})
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${output_dir}/bin/${CMAKE_CFG_INTDIR})
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_ENVIRONMENT "Path=$(Path);${CMAKE_PREFIX_PATH}/bin")
 
+if(UNIX)
+set(UNIX_L
+    pthread
+) 
+endif(UNIX)
+
 #链接库
 target_link_libraries(${PROJECT_NAME}
   ${Qt5Core_LIBRARIES}
+  ${UNIX_L}
 )

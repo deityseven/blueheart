@@ -23,5 +23,5 @@ void HttpServer::serverInit()
 	gcn.esc.senderKey = cf.value("senderKey").toString();
 	cf.endSection();
 
-	this->server->Post("/api/get", gcn);
+	this->server->Post("/api/getCheckNumber", gcn);
 }

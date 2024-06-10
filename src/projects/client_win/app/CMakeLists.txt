@@ -29,12 +29,19 @@ set(CLIENT_WIN_SRC
     #usecartime.cpp
 )
 
+set(HTTPCLIENT_SRC
+    httpclient/httpclient.h
+    httpclient/httpclient.cpp
+)
+
 #筛选显示
 source_group(message FILES ${MESSAGE_SRC})
+source_group(httpclient FILES ${HTTPCLIENT_SRC})
 
 set(SRCS 
 	${MESSAGE_SRC}
 	${CLIENT_WIN_SRC}
+	${HTTPCLIENT_SRC}
 )
 
 #包含目录

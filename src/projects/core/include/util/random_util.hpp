@@ -23,7 +23,6 @@ public:
 		return rand() % ((max + 1) - min) + min;
 	}
 
-	template<>
 	float generateInRange(float min, float max)
 	{
 		long minIntegralPart = min;
@@ -41,7 +40,6 @@ public:
 		return std::stof(buf);
 	}
 
-	template<>
 	double generateInRange(double min, double max)
 	{
 		long long minIntegralPart = min;

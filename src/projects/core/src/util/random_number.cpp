@@ -3,6 +3,7 @@
 #include <chrono>
 #include <random>
 #include <string>
+#include <string.h>
 
 RandomNumber::RandomNumber()
 {
