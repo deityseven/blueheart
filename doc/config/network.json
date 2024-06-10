@@ -12,6 +12,6 @@
         "theme" : "",
         "emailContent" : "",
         "emailServerHost" : "smtp.qq.com",
-        "emailServerPort" : "22"
+        "emailServerPort" : "25"
     }
 }

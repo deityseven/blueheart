@@ -12,3 +12,10 @@ cp -rf /root/build/application /root/shard/blueheart/
 mkdir /root/shard/blueheart/application/config
 cp -rf /root/shard/blueheart/doc/config/server_need_change_name_to_network.json /root/shard/blueheart/application/config
 mv /root/shard/blueheart/application/config/server_need_change_name_to_network.json /root/shard/blueheart/application/config/network.json
+
+cd /root/shard/blueheart/src/projects/server/checknumberserver/emailsender
+go mod init emailsender
+go mod tidy
+go build -o emailsender
+
+cp -rf ./emailsender /root/shard/blueheart/application

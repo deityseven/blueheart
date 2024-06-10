@@ -10,8 +10,6 @@
 void GetCheckNumber::operator()(const httplib::Request& request, httplib::Response& response)
 {
 #ifdef I_OS_LINUX
-    printf("recv: %s\n", request.body.c_str());
-
     auto userInfo = nlohmann::json::parse(request.body);
 
     std::string userName = userInfo["userName"].get<std::string>();
@@ -20,25 +18,24 @@ void GetCheckNumber::operator()(const httplib::Request& request, httplib::Respon
 
     std::string theme = "blueheart 验证码";
     auto number = RandomUtil::instance().generateInRange(100000, 999999);
-    std::string emailContent = std::to_string(number);
+    std::string emailContent = "您好，您的验证码是：" + std::to_string(number) + " ,如果不是您进行操作，请忽略此信息。";
 
     char command[40960] = { 0 };
 
-    sprintf(command,"./emailsender -senderEmail=%s -senderKey=%s -recverEmail=%s -theme=%s -emailContent=%s -emailServerHost=%s -emailServerPort=%s",
-        this->esc.senderEmail,
-        this->esc.senderKey,
+    sprintf(command,"./emailsender -senderEmail=\"%s\" -senderKey=\"%s\" -recverEmail=\"%s\" -theme=\"%s\" -emailContent=\"%s\" -emailServerHost=\"%s\" -emailServerPort=\"%s\"",
+        this->esc.senderEmail.c_str(),
+        this->esc.senderKey.c_str(),
         email.c_str(),
         theme.c_str(),
         emailContent.c_str(),
-        this->esc.emailServerHost,
-        this->esc.emailServerPort);
+        this->esc.emailServerHost.c_str(),
+        this->esc.emailServerPort.c_str());
 
     std::array<char, 255> buffer;
     std::string result;
 
     bool isSuccess = false;
     std::string msg;
-
     FILE* pipe = popen(command, "r");
     if (!pipe) {
         isSuccess = false;

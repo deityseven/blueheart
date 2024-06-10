@@ -9,6 +9,6 @@
         "senderEmail" : "3243881379@qq.com",
         "senderKey" : "gpskkfuivatdciae",
         "emailServerHost" : "smtp.qq.com",
-        "emailServerPort" : "22"
+        "emailServerPort" : "25"
     }
 }

@@ -26,7 +26,6 @@ bool HttpClient::getCheckNumber(std::string request, std::string& response)
         std::string msg = obj->property("msg").toString().toStdString();
 
         response = msg;
-
         return success;
     }
 

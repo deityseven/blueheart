@@ -4,3 +4,6 @@ build/
 src/projects/client_win/app/message/.vscode/
 /src/projects/client_win/app/message/.vscode
 /application
+/src/projects/server/checknumberserver/emailsender/emailsender
+/src/projects/server/checknumberserver/emailsender/go.mod
+/src/projects/server/checknumberserver/emailsender/go.sum

@@ -1,0 +1,10 @@
+tar -zxvf go1.22.4.linux-amd64.tar.gz
+cp -rf ./go /usr/local
+mkdir /root/go_path
+vim /etc/profile
+
+export GO111MODULE=on
+export GOROOT=/usr/local/go
+export GOPATH=/root/go_path
+export GOPROXY=https://proxy.golang.com.cn,direct
+export PATH=$PATH:$GOPATH:$GOROOT/bin
