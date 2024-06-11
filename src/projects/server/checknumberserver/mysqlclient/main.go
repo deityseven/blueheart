@@ -1,13 +1,13 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"reflect"
 
-	_ "github.com/go-sql-driver/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 type Response struct {
@@ -15,7 +15,7 @@ type Response struct {
 	Msg     string `json:"msg"`
 }
 
-func interfaceHandel(db *sql.DB, functionName string, data string) {
+func interfaceHandel(db *gorm.DB, functionName string, data string) {
 	var res Response
 	typeT := &res
 	arg0 := reflect.ValueOf(db)
@@ -58,14 +58,11 @@ func main() {
 	flag.Parse()
 
 	var target = userName + ":" + password + "@tcp(" + serverHost + ":" + setvarPort + ")/" + database
-	db, err := sql.Open("mysql", target)
+	db, err := gorm.Open(mysql.Open(target))
 
 	if err != nil {
 		interfaceHandel(db, functionNeme, jsonData)
 	} else {
 		fmt.Print("database open error")
 	}
-
-	defer db.Close()
-
 }

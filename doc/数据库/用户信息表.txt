@@ -1,1 +1,12 @@
-字段：手机号，用户名，邮箱，验证码
+字段：id，手机号，用户名，密码，邮箱，验证码
+
+use blueheart;
+
+create table user(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userName VARCHAR(50) NOT NULL,
+    password VARCHAR(50),
+    phone VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    checkNumber VARCHAR(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
