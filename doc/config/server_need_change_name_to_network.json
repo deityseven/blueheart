@@ -10,5 +10,11 @@
         "senderKey" : "gpskkfuivatdciae",
         "emailServerHost" : "smtp.qq.com",
         "emailServerPort" : "25"
+    },
+    "MysqlServer" :
+    {
+        "host" : "62.234.46.151",
+        "port" : 3306,
+        "database" : "blueheart"
     }
 }

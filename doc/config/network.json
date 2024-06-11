@@ -8,10 +8,13 @@
     {
         "senderEmail" : "",
         "senderKey" : "",
-        "recverEmail" : "",
-        "theme" : "",
-        "emailContent" : "",
         "emailServerHost" : "smtp.qq.com",
         "emailServerPort" : "25"
+    },
+    "MysqlServer" :
+    {
+        "host" : "",
+        "port" : 3306,
+        "database" : "blueheart"
     }
 }
