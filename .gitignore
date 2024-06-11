@@ -7,3 +7,5 @@ src/projects/client_win/app/message/.vscode/
 /src/projects/server/checknumberserver/emailsender/emailsender
 /src/projects/server/checknumberserver/emailsender/go.mod
 /src/projects/server/checknumberserver/emailsender/go.sum
+/src/projects/server/checknumberserver/mysqlclient/.vscode
+/src/projects/server/checknumberserver/mysqlclient/go.mod
