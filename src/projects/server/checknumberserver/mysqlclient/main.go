@@ -6,6 +6,8 @@ import (
 	"flag"
 	"fmt"
 	"reflect"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Response struct {
