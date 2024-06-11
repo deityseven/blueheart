@@ -57,12 +57,13 @@ func main() {
 
 	flag.Parse()
 
-	var target = userName + ":" + password + "@tcp(" + serverHost + ":" + setvarPort + ")/" + database
-	db, err := gorm.Open(mysql.Open(target))
+	//root:123456@tcp(localhost:3306)/tizi365?charset=utf8&parseTime=True&loc=Local&timeout=2s&readTimeout=2s&writeTimeout=10s
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local&timeout=2s&readTimeout=2s&writeTimeout=10s", userName, password, serverHost, setvarPort, database)
+	db, err := gorm.Open(mysql.Open(dsn))
 
 	if err != nil {
-		interfaceHandel(db, functionNeme, jsonData)
-	} else {
 		fmt.Print("database open error")
+	} else {
+		interfaceHandel(db, functionNeme, jsonData)
 	}
 }
