@@ -62,7 +62,11 @@ func main() {
 	db, err := gorm.Open(mysql.Open(dsn))
 
 	if err != nil {
-		fmt.Print("database open error")
+		var res Response
+		res.Msg = "database open error"
+		res.Success = false
+		jsonData, _ := json.Marshal(res)
+		fmt.Print(string(jsonData))
 	} else {
 		interfaceHandel(db, functionNeme, jsonData)
 	}
