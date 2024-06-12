@@ -89,6 +89,10 @@ set(BUILDER_SRC
     ${SOURCEC_DIR}/configfile/parser_builder/builder/xml_builder_handle.cpp
 )
 
+set(EXECUTABLEPROGRAM_SRC
+    ${INCLUDE_DIR}/executableprogram/executableprogram.h
+    ${SOURCEC_DIR}/executableprogram/executableprogram.cpp
+)
 
 #筛选显示
 source_group(json FILES ${MESSAGE_SRC})
@@ -100,6 +104,7 @@ source_group(widget FILES ${WIDGET_SRC})
 source_group(configfile FILES ${CONFIGFILE_SRC})
 source_group(configfile/parser FILES ${PARSER_SRC})
 source_group(configfile/builder FILES ${BUILDER_SRC})
+source_group(executableprogram FILES ${EXECUTABLEPROGRAM_SRC})
 
 set(SRCS 
 	${TRANSMITCENTER_SRC}
@@ -111,6 +116,7 @@ set(SRCS
 	${CONFIGFILE_SRC}
 	${PARSER_SRC}
 	${BUILDER_SRC}
+	${EXECUTABLEPROGRAM_SRC}
 )
 
 message(${CMAKE_CURRENT_SOURCE_DIR}/${INCLUDE_DIR})

@@ -1,7 +1,9 @@
 #include <executableprogram/executableprogram.h>
 #include <string.h>
-#include <message/checknumberresponse.h>
 #include <transmitcenter/transmitcenter.h>
+#include <qvariant.h>
+#include <util/platform_define.h>
+#include <qdebug.h>
 
 ExecutableProgram::ExecutableProgram(std::string programPath)
     :path(programPath)
@@ -18,7 +20,8 @@ void ExecutableProgram::addArg(std::string arg, std::string value)
 
 std::string ExecutableProgram::exec()
 {
-    CheckNumberResponse cnr;
+    auto typeInt = QMetaType::type("CheckNumberResponse");
+    auto cnr = static_cast<QObject*>(QMetaType::create(typeInt));
 
     std::string argsStr;
     char buf[4096];
@@ -43,21 +46,28 @@ std::string ExecutableProgram::exec()
 
     if (!pipe)
     {
-        cnr.setSuccess(false);
-        cnr.setMsg("executable program exec open faile");
+        cnr->setProperty("setSuccess", false);
+        cnr->setProperty("setMsg", "executable program exec open faile");
     }
     else
     {
         int len = fread(buffer.data(), 1, buffer.size(), pipe);
 
         if (len <= 0) {
-            cnr.setSuccess(false);
-            cnr.setMsg("executable program exec not output");
+            qDebug() << "false";
+            cnr->setProperty("setSuccess", false);
+            cnr->setProperty("setMsg", "executable program exec not output");
+            //cnr.setSuccess(false);
+            //cnr.setMsg("executable program exec not output");
         }
         else
         {
-            cnr.setSuccess(true);
-            cnr.setMsg(buffer.data());
+            qDebug() << buffer.data();
+            cnr->setProperty("setSuccess", true);
+            cnr->setProperty("setMsg", buffer.data());
+            
+            //cnr.setSuccess(true);
+            //cnr.setMsg(buffer.data());
         }
 
 
@@ -69,7 +79,7 @@ std::string ExecutableProgram::exec()
 #endif
     }
 
-    std::string result = TransmitCenter::instance().toJson(&cnr);
+    std::string result = TransmitCenter::instance().toJson(cnr);
 
     return result;
 }
