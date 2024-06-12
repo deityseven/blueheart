@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <string.h>
 #endif // I_OS_LINUX
 
 bool PlatformUtil::access(const char * filename, FileAuthority mode)
@@ -122,7 +123,7 @@ std::list<std::string> PlatformUtil::directoryContent(std::string file)
             while (dirent* info = readdir(dir))
             {
                 if (strcmp(".", info->d_name) == 0 || strcmp("..", info->d_name) == 0)
-                result.push_back(standardPath(file + fileInfo.name));
+                result.push_back(standardPath(file + info->d_name));
             }
 
             closedir(dir);

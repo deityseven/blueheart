@@ -19,3 +19,10 @@ go mod tidy
 go build -o emailsender
 
 cp -rf ./emailsender /root/shard/blueheart/application
+
+cd /root/shard/blueheart/src/projects/server/checknumberserver/mysqlclient
+go mod init mysqlclient
+go mod tidy
+go build -o mysqlclient
+
+cp -rf ./mysqlclient /root/shard/blueheart/application

@@ -10,3 +10,13 @@ create table user(
     email VARCHAR(50) NOT NULL,
     checkNumber VARCHAR(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `users` (
+`id` bigint AUTO_INCREMENT,
+`user_name` varchar(50) NOT NULL,
+`password` varchar(50),
+`phone` varchar(50) NOT NULL,
+`email` varchar(50) NOT NULL,
+`check_number` varchar(6),
+PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARACTER SET utf8;

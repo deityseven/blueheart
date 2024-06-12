@@ -26,7 +26,7 @@ void RefTest(int argc, char* argv[])
     root["phone"] = phone;
     root["email"] = email;
 
-    std::string temp = root.dump(4);
+    std::string temp = root.dump();
 
     ep.addArg("jsonData", temp);
     std::string result = ep.exec();

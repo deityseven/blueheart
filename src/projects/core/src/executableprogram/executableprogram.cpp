@@ -4,6 +4,8 @@
 #include <qvariant.h>
 #include <util/platform_define.h>
 #include <qdebug.h>
+#include <array>
+#include <json/json.hpp>
 
 ExecutableProgram::ExecutableProgram(std::string programPath)
     :path(programPath)
@@ -20,9 +22,8 @@ void ExecutableProgram::addArg(std::string arg, std::string value)
 
 std::string ExecutableProgram::exec()
 {
-    auto typeInt = QMetaType::type("CheckNumberResponse");
-    auto cnr = static_cast<QObject*>(QMetaType::create(typeInt));
-
+    nlohmann::json root;
+    
     std::string argsStr;
     char buf[4096];
     for(auto item : this->args)
@@ -35,7 +36,7 @@ std::string ExecutableProgram::exec()
     }
 
     std::string cmd = this->path + argsStr;
-    std::array<char, 2550> buffer;
+    std::array<char, 2550> buffer = { 0 };
 
 #ifdef I_OS_LINUX
     FILE* pipe = popen(cmd.c_str(), "r");
@@ -46,28 +47,21 @@ std::string ExecutableProgram::exec()
 
     if (!pipe)
     {
-        cnr->setProperty("setSuccess", false);
-        cnr->setProperty("setMsg", "executable program exec open faile");
+        root["success"] = false;
+        root["msg"] = "executable program exec open faile";
     }
     else
     {
         int len = fread(buffer.data(), 1, buffer.size(), pipe);
 
         if (len <= 0) {
-            qDebug() << "false";
-            cnr->setProperty("setSuccess", false);
-            cnr->setProperty("setMsg", "executable program exec not output");
-            //cnr.setSuccess(false);
-            //cnr.setMsg("executable program exec not output");
+            root["success"] = false;
+            root["msg"] = "executable program exec not output";
         }
         else
         {
-            qDebug() << buffer.data();
-            cnr->setProperty("setSuccess", true);
-            cnr->setProperty("setMsg", buffer.data());
-            
-            //cnr.setSuccess(true);
-            //cnr.setMsg(buffer.data());
+            root["success"] = true;
+            root["msg"] = buffer.data();
         }
 
 
@@ -79,7 +73,7 @@ std::string ExecutableProgram::exec()
 #endif
     }
 
-    std::string result = TransmitCenter::instance().toJson(cnr);
+    std::string result = root.dump();
 
     return result;
 }
