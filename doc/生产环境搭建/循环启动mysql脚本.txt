@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# 设置MySQL服务的名称
+MYSQL_SERVICE="mysqld"
+
+# 循环检查MySQL服务状态
+while true; do
+    # 检查服务状态
+    if ! systemctl is-active --quiet $MYSQL_SERVICE; then
+        # 服务未运行，尝试启动
+        echo "MySQL服务未运行，现在尝试启动..." | ts '%Y-%m-%d %H:%M:%S' >> /var/log/mysql_start.log
+        systemctl start $MYSQL_SERVICE
+
+        # 再次检查服务状态
+        if systemctl is-active --quiet $MYSQL_SERVICE; then
+            echo "MySQL服务已成功启动" | ts '%Y-%m-%d %H:%M:%S' >> /var/log/mysql_start.log
+        else
+            echo "MySQL服务启动失败" | ts '%Y-%m-%d %H:%M:%S' >> /var/log/mysql_start.log
+        fi
+    fi
+
+    # 等待一段时间再次检查（例如，等待60秒）
+    sleep 60
+done
