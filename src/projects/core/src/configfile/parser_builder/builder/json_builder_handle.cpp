@@ -63,7 +63,8 @@ bool JsonBuilderHandle::handle(const std::map<std::string, std::map<std::string,
         root[sectionName] = sectionJson;
     }
 
-    out.swap(root.dump(4));
+    std::string temp = root.dump(4);
+    out.swap(temp);
 
     return true;
 }

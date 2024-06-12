@@ -71,7 +71,8 @@ bool XmlBuilderHandle::handle(const std::map<std::string, std::map<std::string, 
 
     std::stringstream os;
     doc.save(os, "\t", pugi::format_indent);
-    out.swap(os.str());
+    std::string temp = os.str();
+    out.swap(temp);
 
     return true;
 }

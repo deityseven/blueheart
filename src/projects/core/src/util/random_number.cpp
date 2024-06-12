@@ -2,8 +2,8 @@
 #include <iostream>
 #include <chrono>
 #include <random>
-#include <string>
 #include <string.h>
+#include <string>
 
 RandomNumber::RandomNumber()
 {
@@ -13,7 +13,7 @@ RandomNumber::RandomNumber()
 
 	std::string v;
 	std::string tstr = std::to_string(cc);
-	v.assign(tstr, 10);
+	v.assign(tstr.c_str(), 10);
 	unsigned int value = std::stol(v);
 
 	srand(value);

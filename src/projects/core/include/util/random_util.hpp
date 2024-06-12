@@ -65,7 +65,7 @@ private:
 
 		std::string nsTimeStr = std::to_string(nsTime);
 		std::string firstTenStr;
-		firstTenStr.assign(nsTimeStr, 10);
+		firstTenStr.assign(nsTimeStr.c_str(), 10);
 		unsigned int seed = std::stol(firstTenStr);
 
 		srand(seed);

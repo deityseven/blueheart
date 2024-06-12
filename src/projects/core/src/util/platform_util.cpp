@@ -61,7 +61,7 @@ bool PlatformUtil::isDirectory(std::string file)
         return st.st_mode & S_IFDIR;
     }
 
-    throw std::exception("invalid parameter");
+    return false;
 }
 
 bool PlatformUtil::isFile(std::string file)
@@ -72,7 +72,7 @@ bool PlatformUtil::isFile(std::string file)
         return st.st_mode & S_IFREG;
     }
 
-    throw std::exception("invalid parameter");
+    return false;
 }
 
 std::string PlatformUtil::standardPath(std::string file)
@@ -104,7 +104,7 @@ std::list<std::string> PlatformUtil::directoryContent(std::string file)
         struct _finddata_t fileInfo;
         memset(&fileInfo, 0, sizeof(struct _finddata_t));
         auto handle = _findfirst(search.c_str(), &fileInfo);
-        if (handle == -1) throw std::exception("invalid parameter");
+        if (handle == -1) return result;
         do
         {
             if(strcmp(".", fileInfo.name) == 0 || strcmp("..", fileInfo.name) == 0)
@@ -128,10 +128,6 @@ std::list<std::string> PlatformUtil::directoryContent(std::string file)
             closedir(dir);
         }
 #endif // I_OS_LINUX
-    }
-    else
-    {
-        throw std::exception("invalid parameter");
     }
 
     return result;
