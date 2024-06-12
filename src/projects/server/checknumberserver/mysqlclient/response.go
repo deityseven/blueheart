@@ -20,7 +20,6 @@ type User struct {
 	CheckNumber string `json:"checkNumber" gorm:"size:6"`
 }
 
-// SELECT EXISTS(SELECT 1 FROM your_table WHERE your_column = 'your_value');
 func (d *Response) QueryUserNameIsExist(db *gorm.DB, data string) {
 	var user User
 
@@ -30,12 +29,28 @@ func (d *Response) QueryUserNameIsExist(db *gorm.DB, data string) {
 
 	var users []User
 	db.Where("phone = ?", user.Phone).Find(&users)
-	db.Create(&user)
 	if len(users) >= 1 {
 		d.Msg = "The phone number is registered"
 		d.Success = false
 	} else {
 		d.Msg = "The phone number isn't registered"
+		d.Success = true
+	}
+}
+
+func (d *Response) AddUserInfo(db *gorm.DB, data string) {
+	var user User
+
+	db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARACTER SET utf8").AutoMigrate(&User{})
+
+	json.Unmarshal([]byte(data), &user)
+
+	result := db.Create(&user)
+	if result.Error != nil {
+		d.Msg = "add user faild"
+		d.Success = false
+	} else {
+		d.Msg = "add user success"
 		d.Success = true
 	}
 }
