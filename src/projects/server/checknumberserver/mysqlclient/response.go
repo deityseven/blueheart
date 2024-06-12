@@ -15,7 +15,7 @@ type User struct {
 	ID          int    `json:"id" gorm:"PRIMARY_KEY;AUTO_INCREMENT"`
 	UserName    string `json:"userName" gorm:"size:50;NOT NULL"`
 	Password    string `json:"password" gorm:"size:50"`
-	Phone       string `json:"phone" gorm:"size:50;NOT NULL"`
+	Phone       string `json:"phone" gorm:"size:50;NOT NULL;UNIQUE"`
 	Email       string `json:"email" gorm:"size:50;NOT NULL"`
 	CheckNumber string `json:"checkNumber" gorm:"size:6"`
 }
@@ -52,5 +52,23 @@ func (d *Response) AddUserInfo(db *gorm.DB, data string) {
 	} else {
 		d.Msg = "add user success"
 		d.Success = true
+	}
+}
+
+func (d *Response) CheckNumberCompare(db *gorm.DB, data string) {
+	var user User
+
+	db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARACTER SET utf8").AutoMigrate(&User{})
+
+	json.Unmarshal([]byte(data), &user)
+
+	var users []User
+	db.Where("phone = ? and checkNumber = ?", user.Phone, user.CheckNumber).Find(&users)
+	if len(users) == 1 {
+		d.Msg = "The checkNumber as identical"
+		d.Success = true
+	} else {
+		d.Msg = "The checkNumber as not identical"
+		d.Success = false
 	}
 }
