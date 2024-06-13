@@ -2,21 +2,13 @@
 #define GETCHECKNUMBER_H
 
 #include <http/httpserverhandel.h>
+#include <util/mysqlserverconfig.h>
+#include <util/emailsenderconfig.h>
 
-class GetCheckNumber : public HttpServerHandle
+class GetCheckNumber : public HttpServerHandle, public MysqlServerConfig, public EmailSenderConfig
 {
 public:
-
-	struct EmailServerConfig
-	{
-        std::string senderEmail;
-        std::string senderKey;
-        std::string emailServerHost;
-        std::string emailServerPort;
-	};
-
-	EmailServerConfig esc;
-
+	GetCheckNumber(std::string configPath);
 	void operator()(const httplib::Request& request, httplib::Response& response) override;
 };
 

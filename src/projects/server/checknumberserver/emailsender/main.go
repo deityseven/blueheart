@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"net/smtp"
@@ -8,8 +9,13 @@ import (
 	"github.com/jordan-wright/email"
 )
 
-func main() {
+type Response struct {
+	Success bool   `json:"success"`
+	Msg     string `json:"msg"`
+}
 
+func main() {
+	var res Response
 	var senderEmail string
 	var senderKey string
 	var recverEmail string
@@ -45,8 +51,13 @@ func main() {
 	var HostAndPort = emailServerHost + ":" + emailServerPort
 	err := em.Send(HostAndPort, smtp.PlainAuth("", senderEmail, senderKey, emailServerHost))
 	if err != nil {
-		fmt.Println("error")
+		res.Msg = fmt.Sprintf("email sender error : info -> HostAndPort:%s, senderEmail:%s,senderKey:%s,emailServerHost:%s,emailContent%s\n", HostAndPort, senderEmail, senderKey, emailServerHost, emailContent)
+		res.Success = false
 	} else {
-		fmt.Print("success")
+		res.Msg = "success"
+		res.Success = false
 	}
+
+	data, _ := json.Marshal(res)
+	fmt.Print(string(data))
 }

@@ -1,11 +1,10 @@
 #include <executableprogram/executableprogram.h>
 #include <string.h>
-#include <transmitcenter/transmitcenter.h>
-#include <qvariant.h>
 #include <util/platform_define.h>
-#include <qdebug.h>
 #include <array>
 #include <json/json.hpp>
+#include <stdio.h>
+#include <qstring.h>
 
 ExecutableProgram::ExecutableProgram(std::string programPath)
     :path(programPath)
@@ -31,7 +30,12 @@ std::string ExecutableProgram::exec()
         auto argName = item.first;
         auto argValue = item.second;
         memset(buf, 0, 4096);
-        sprintf(buf," -%s=\"%s\"",argName.c_str(),argValue.c_str());
+#ifdef I_OS_LINUX
+        sprintf(buf," -%s=\"%s\"", argName.c_str(), argValue.c_str());
+#endif
+#ifdef I_OS_WIN
+        sprintf(buf," -%s \"%s\"", argName.c_str(), argValue.c_str());
+#endif
         argsStr += buf;
     }
 

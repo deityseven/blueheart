@@ -42,7 +42,7 @@ func main() {
 	var userName string
 	var password string
 	var serverHost string
-	var setvarPort string
+	var serverPort string
 	var database string
 	var functionNeme string
 	var jsonData string
@@ -50,7 +50,7 @@ func main() {
 	flag.StringVar(&userName, "userName", "", "username")
 	flag.StringVar(&password, "password", "", "password")
 	flag.StringVar(&serverHost, "serverHost", "", "mysql server host")
-	flag.StringVar(&setvarPort, "setvarPort", "", "mysql server port")
+	flag.StringVar(&serverPort, "serverPort", "", "mysql server port")
 	flag.StringVar(&database, "database", "", "mysql database name")
 	flag.StringVar(&functionNeme, "functionNeme", "", "db interface")
 	flag.StringVar(&jsonData, "jsonData", "", "db interface need's arg --json")
@@ -58,7 +58,7 @@ func main() {
 	flag.Parse()
 
 	//root:123456@tcp(localhost:3306)/tizi365?charset=utf8&parseTime=True&loc=Local&timeout=2s&readTimeout=2s&writeTimeout=10s
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local&timeout=2s&readTimeout=2s&writeTimeout=10s", userName, password, serverHost, setvarPort, database)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local&timeout=2s&readTimeout=2s&writeTimeout=10s", userName, password, serverHost, serverPort, database)
 	db, err := gorm.Open(mysql.Open(dsn))
 
 	if err != nil {

@@ -47,11 +47,15 @@ set(UTIL_SRC
     ${INCLUDE_DIR}/util/random_util.hpp
     ${INCLUDE_DIR}/util/string_util.h
     ${INCLUDE_DIR}/util/platform_define.h
+    ${INCLUDE_DIR}/util/mysqlserverconfig.h
+    ${INCLUDE_DIR}/util/emailsenderconfig.h
     ${INCLUDE_DIR}/util/threadpool.hpp
     ${SOURCEC_DIR}/util/file_util.cpp
     ${SOURCEC_DIR}/util/platform_util.cpp
     ${SOURCEC_DIR}/util/random_number.cpp
     ${SOURCEC_DIR}/util/string_util.cpp
+    ${SOURCEC_DIR}/util/mysqlserverconfig.cpp
+    ${SOURCEC_DIR}/util/emailsenderconfig.cpp
 )
 
 set(CONFIGFILE_SRC
@@ -163,8 +167,16 @@ set(UNIX_L
 ) 
 endif(UNIX)
 
+
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+set(MingW_L
+	ws2_32
+)
+endif()
+
 #链接库
 target_link_libraries(${PROJECT_NAME}
   ${Qt5Core_LIBRARIES}
   ${UNIX_L}
+  ${MingW_L}
 )

@@ -6,10 +6,17 @@
 #include <array>
 #include <util/random_util.hpp>
 #include <util/platform_define.h>
+#include <executableprogram/executableprogram.h>
+#include <qstring.h>
 
-void GetCheckNumber::operator()(const httplib::Request& request, httplib::Response& response)
+GetCheckNumber::GetCheckNumber(std::string configPath)
+    :EmailSenderConfig(configPath),
+    MysqlServerConfig(configPath)
 {
-#ifdef I_OS_LINUX
+}
+
+void GetCheckNumber::operator()(const httplib::Request &request, httplib::Response &response)
+{
     auto userInfo = nlohmann::json::parse(request.body);
 
     std::string userName = userInfo["userName"].get<std::string>();
@@ -19,60 +26,98 @@ void GetCheckNumber::operator()(const httplib::Request& request, httplib::Respon
     std::string theme = "blueheart 验证码";
     auto number = RandomUtil::instance().generateInRange(100000, 999999);
     std::string emailContent = "您好，您的验证码是：" + std::to_string(number) + " ,如果不是您进行操作，请忽略此信息。";
+    printf(emailContent.c_str());
+#ifdef I_OS_LINUX
+        //查询用户是否存在
+    ExecutableProgram mysqlclientep("./mysqlclient");
+#endif
+#ifdef I_OS_WIN
+    ExecutableProgram mysqlclientep("mysqlclient.exe");
+#endif
 
-    char command[40960] = { 0 };
+    mysqlclientep.addArg("userName",MysqlServerConfig::userName);
+    mysqlclientep.addArg("password",MysqlServerConfig::password);
+    mysqlclientep.addArg("serverHost",MysqlServerConfig::serverHost);
+    mysqlclientep.addArg("serverPort",MysqlServerConfig::serverPort);
+    mysqlclientep.addArg("database",MysqlServerConfig::database);
+    mysqlclientep.addArg("functionNeme","QueryUserNameIsExist");
 
-    sprintf(command,"./emailsender -senderEmail=\"%s\" -senderKey=\"%s\" -recverEmail=\"%s\" -theme=\"%s\" -emailContent=\"%s\" -emailServerHost=\"%s\" -emailServerPort=\"%s\"",
-        this->esc.senderEmail.c_str(),
-        this->esc.senderKey.c_str(),
-        email.c_str(),
-        theme.c_str(),
-        emailContent.c_str(),
-        this->esc.emailServerHost.c_str(),
-        this->esc.emailServerPort.c_str());
+    nlohmann::json userJson;
+    userJson["userName"] = userName;
+    userJson["phone"] = phone;
+    userJson["email"] = email;
+    std::string temp = userJson.dump();
+    QString tt = QString::fromStdString(temp);
+    tt.replace("\"","\\\"");
+    temp = tt.toStdString();
+    mysqlclientep.addArg("jsonData",temp);
+    std::string mysqlclientepResult = mysqlclientep.exec();
 
-    std::array<char, 255> buffer;
-    std::string result;
-
-    bool isSuccess = false;
-    std::string msg;
-    FILE* pipe = popen(command, "r");
-    if (!pipe) {
-        isSuccess = false;
-        msg = "验证码发送失败，服务器错误: emailsender popen error";
-    }
-    else
+    auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
+    bool success = mysqlclientepResultJson["success"].get<bool>();
+    std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
+    if(success)
     {
-        int len = fread(buffer.data(), 1, buffer.size(), pipe);
+        
+#ifdef I_OS_LINUX
+        ExecutableProgram emailsenderep("./emailsender");
+#endif
+#ifdef I_OS_WIN
+        ExecutableProgram emailsenderep("emailsender.exe");
+#endif
+        emailsenderep.addArg("senderEmail",EmailSenderConfig::senderEmail);
+        emailsenderep.addArg("senderKey",EmailSenderConfig::senderKey);
+        emailsenderep.addArg("recverEmail",email);
+        emailsenderep.addArg("emailServerHost",EmailSenderConfig::emailServerHost);
+        emailsenderep.addArg("emailServerPort",EmailSenderConfig::emailServerPort);
+        emailsenderep.addArg("theme",theme);
+        emailsenderep.addArg("emailContent",emailContent);
+    
+        std::string emailsenderepResult = emailsenderep.exec();
+        printf(emailsenderepResult.c_str());
+        auto jsonObject = nlohmann::json::parse(emailsenderepResult);
+        bool success = jsonObject["success"].get<bool>();
+        std::string msg = jsonObject["msg"].get<std::string>();
 
-        if (len <= 0) {
-            isSuccess = false;
-            msg = "验证码发送失败，服务器错误: emailsender print is null";
+        if(success)
+        {
+            mysqlclientep.addArg("functionNeme","AddUserInfo");
+
+            std::string mysqlclientepResult = mysqlclientep.exec();
+
+            auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
+            bool success = mysqlclientepResultJson["success"].get<bool>();
+            std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
+
+            nlohmann::json root;
+            root["typeName"] = "CheckNumberResponse";
+            root["isSuccess"] = success;
+            root["msg"] = msg;
+
+            response.body = root.dump();
+
+            return;
         }
         else
         {
-            if (strcmp(buffer.data(),"error") == 0)
-            {
-                isSuccess = false;
-                msg = "验证码发送失败，服务器错误: emailsender print is error";
-            }
+            bool success = false;
+            std::string msg = "check number send to email failed";
 
-            if (strcmp(buffer.data(), "success") == 0)
-            {
-                isSuccess = true;
-                msg = "验证码发送成功";
-            }
+            nlohmann::json root;
+            root["typeName"] = "CheckNumberResponse";
+            root["isSuccess"] = success;
+            root["msg"] = msg;
+
+            response.body = root.dump();
+
+            return;
         }
-
-        pclose(pipe);
     }
     
     nlohmann::json root;
     root["typeName"] = "CheckNumberResponse";
-    root["isSuccess"] = true;
+    root["isSuccess"] = success;
     root["msg"] = msg;
 
     response.body = root.dump();
-
-#endif // I_OS_LINUX
 }

@@ -14,14 +14,6 @@ HttpServer::~HttpServer()
 
 void HttpServer::serverInit()
 {
-	ConfigFile cf("./config/network.json");
-	cf.beginSection("EmailSender");
-	GetCheckNumber gcn;
-	gcn.esc.emailServerHost = cf.value("emailServerHost").toString();
-	gcn.esc.emailServerPort = cf.value("emailServerPort").toString();
-	gcn.esc.senderEmail = cf.value("senderEmail").toString();
-	gcn.esc.senderKey = cf.value("senderKey").toString();
-	cf.endSection();
-
+	GetCheckNumber gcn("./config/network.json");
 	this->server->Post("/api/getCheckNumber", gcn);
 }

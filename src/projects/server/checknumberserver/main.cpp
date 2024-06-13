@@ -4,6 +4,8 @@
 
 int main(int argc, char *argv[])
 {
+	system("chcp 65001");
+	
 	ConfigFile cf("./config/network.json");
 	cf.beginSection("CheckNumberServer");
 

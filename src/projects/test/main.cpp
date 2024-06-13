@@ -7,7 +7,7 @@
 void RefTest(int argc, char* argv[])
 {
 	QApplication a(argc, argv);
-
+    system("chcp 65001");
     ExecutableProgram ep("mysqlclient.exe");
 
     std::string userName = "admin";
