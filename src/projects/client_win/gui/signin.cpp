@@ -35,6 +35,27 @@ void Signin::senderToEmailTimeout()
     }
 }
 
+void Signin::signin()
+{
+    SigninRequest sr;
+    sr.setUserName(this->ui.userName->text());
+    sr.setPhone(this->ui.phone->text());
+    sr.setEmail(this->ui.email->text());
+    sr.setCheckNumber(this->ui.checkNumber->text());
+
+    std::string request = TransmitCenter::instance().toJson(&sr);
+    std::string response;
+    if (!this->httpClient->getCheckNumber(request, response))
+    {
+        QMessageBox::warning(this, "错误", QString::fromStdString(response));
+        this->sendToEmailTime = 0;
+    }
+    else
+    {
+        QMessageBox::information(this, "信息", QString::fromStdString(response));
+    }
+}
+
 void Signin::senderToEmail()
 {
     CheckNumberRequest cnr;

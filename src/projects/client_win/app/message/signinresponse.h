@@ -7,23 +7,23 @@ class SigninResponse : public Message
 {
 	Q_OBJECT
 
-	Q_PROPERTY(uint code READ code WRITE setCode)
 	Q_PROPERTY(QString msg READ msg WRITE setMsg)
+	Q_PROPERTY(bool success READ success WRITE setSuccess)
 
 public:
 	Q_INVOKABLE SigninResponse(QObject* parent = nullptr);
 	Q_INVOKABLE SigninResponse(const SigninResponse& other);
 	Q_INVOKABLE ~SigninResponse();
 
-	Q_INVOKABLE uint code();
-	Q_INVOKABLE void setCode(uint data);
 	Q_INVOKABLE QString msg();
 	Q_INVOKABLE void setMsg(QString data);
+	Q_INVOKABLE bool success();
+	Q_INVOKABLE void setSuccess(bool data);
 
 
 private:
-	uint _code;
 	QString _msg;
+	bool _success;
 
 };
 

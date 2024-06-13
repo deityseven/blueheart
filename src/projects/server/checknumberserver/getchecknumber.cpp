@@ -91,7 +91,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
 
             nlohmann::json root;
             root["typeName"] = "CheckNumberResponse";
-            root["isSuccess"] = success;
+            root["success"] = success;
             root["msg"] = msg;
 
             response.body = root.dump();
@@ -105,7 +105,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
 
             nlohmann::json root;
             root["typeName"] = "CheckNumberResponse";
-            root["isSuccess"] = success;
+            root["success"] = success;
             root["msg"] = msg;
 
             response.body = root.dump();
@@ -116,7 +116,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
     
     nlohmann::json root;
     root["typeName"] = "CheckNumberResponse";
-    root["isSuccess"] = success;
+    root["success"] = success;
     root["msg"] = msg;
 
     response.body = root.dump();

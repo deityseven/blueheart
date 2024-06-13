@@ -18,6 +18,7 @@ public:
 public slots:
     void senderToEmail();
     void senderToEmailTimeout();
+    void signin();
 private:
     Ui::Signin ui;
 

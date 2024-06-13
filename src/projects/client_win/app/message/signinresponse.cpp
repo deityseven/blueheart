@@ -7,8 +7,8 @@ SigninResponse::SigninResponse(QObject * parent)
 
 SigninResponse::SigninResponse(const SigninResponse& other)
 {
-	this->_code = other._code;
 	this->_msg = other._msg;
+	this->_success = other._success;
 
 }
 
@@ -16,15 +16,6 @@ SigninResponse::~SigninResponse()
 {
 }
 
-uint SigninResponse::code()
-{
-	return this->_code;
-}
-
-void SigninResponse::setCode(uint data)
-{
-	this->_code = data;
-}
 QString SigninResponse::msg()
 {
 	return this->_msg;
@@ -33,4 +24,13 @@ QString SigninResponse::msg()
 void SigninResponse::setMsg(QString data)
 {
 	this->_msg = data;
+}
+bool SigninResponse::success()
+{
+	return this->_success;
+}
+
+void SigninResponse::setSuccess(bool data)
+{
+	this->_success = data;
 }

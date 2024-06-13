@@ -10,6 +10,8 @@ set(MAIN_SRC
 	httpserver.cpp
 	getchecknumber.h
 	getchecknumber.cpp
+	signin.h
+	signin.cpp
 )
 
 set(SRCS 

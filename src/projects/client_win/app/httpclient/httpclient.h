@@ -10,6 +10,7 @@ public:
 	~HttpClient();
 
 	bool getCheckNumber(std::string request, std::string& response);
+	bool signin(std::string request, std::string& response);
 };
 
 

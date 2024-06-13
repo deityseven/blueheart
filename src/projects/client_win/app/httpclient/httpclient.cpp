@@ -32,3 +32,23 @@ bool HttpClient::getCheckNumber(std::string request, std::string& response)
     response = "与服务器通讯失败...请检查网络";
     return false;
 }
+
+bool HttpClient::signin(std::string request, std::string &response)
+{
+    auto result = this->client->Post("/api/signin", request, "application/json");
+
+    if (result && (result->status == 200))
+    {
+        std::string data = result->body;
+        QObject* obj = TransmitCenter::instance().fromJson(data);
+
+        bool success = obj->property("success").toBool();
+        std::string msg = obj->property("msg").toString().toStdString();
+
+        response = msg;
+        return success;
+    }
+
+    response = "与服务器通讯失败...请检查网络";
+    return false;
+}
