@@ -167,12 +167,13 @@ set(UNIX_L
 ) 
 endif(UNIX)
 
-
+if(WIN32)
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 set(MingW_L
 	ws2_32
 )
 endif()
+endif(WIN32)
 
 #链接库
 target_link_libraries(${PROJECT_NAME}
