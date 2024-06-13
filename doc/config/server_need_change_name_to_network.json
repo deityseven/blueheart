@@ -15,6 +15,8 @@
     {
         "host" : "62.234.46.151",
         "port" : 3306,
+        "userName" : "root",
+        "password" : "123456",
         "database" : "blueheart"
     }
 }
