@@ -4,6 +4,11 @@
         "host" : "",
         "port" : 4452
     },
+    "SigninServer" :
+    {
+        "host" : "",
+        "port" : 4453
+    },
     "EmailSender" :
     {
         "senderEmail" : "",

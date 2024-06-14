@@ -1,1 +1,2 @@
 ADD_SUBDIRECTORY(checknumberserver)
+ADD_SUBDIRECTORY(signinserver)

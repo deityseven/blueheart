@@ -1,14 +1,6 @@
 # build dir
 build/
-.vscode/
-src/projects/client_win/app/message/.vscode/
-/src/projects/client_win/app/message/.vscode
+*.vscode
 /application
-/src/projects/server/checknumberserver/emailsender/emailsender
-/src/projects/server/checknumberserver/emailsender/go.mod
-/src/projects/server/checknumberserver/emailsender/go.sum
-/src/projects/server/checknumberserver/mysqlclient/.vscode
-/src/projects/server/checknumberserver/mysqlclient/go.mod
-/src/projects/server/checknumberserver/mysqlclient/go.sum
-/src/projects/server/checknumberserver/mysqlclient/mysqlclient
-/src/projects/server/checknumberserver/mysqlclient/mysqlclient.exe
+*.mod
+*.sum

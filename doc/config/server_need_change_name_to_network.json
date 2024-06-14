@@ -4,6 +4,11 @@
         "host" : "0.0.0.0",
         "port" : 4452
     },
+    "SigninServer" :
+    {
+        "host" : "0.0.0.0",
+        "port" : 4453
+    },
     "EmailSender" :
     {
         "senderEmail" : "3243881379@qq.com",

@@ -1,4 +1,4 @@
-project(checknumberserver)
+project(signinserver)
 
 #C++标准 
 set(CMAKE_CXX_STANDARD 11)
@@ -8,8 +8,8 @@ set(MAIN_SRC
 	main.cpp
 	httpserver.h
 	httpserver.cpp
-	getchecknumber.h
-	getchecknumber.cpp
+	signin.h
+	signin.cpp
 )
 
 set(SRCS 
