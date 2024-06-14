@@ -29,6 +29,8 @@ set(WIDGET_SRC
 	blueheart.cpp
 	signin.h
 	signin.cpp
+	login.h
+	login.cpp
 )
 
 set(MAIN_SRC
