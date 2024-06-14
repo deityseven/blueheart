@@ -26,7 +26,6 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
     std::string theme = "blueheart 验证码";
     auto number = RandomUtil::instance().generateInRange(100000, 999999);
     std::string emailContent = "您好，您的验证码是：" + std::to_string(number) + " ,如果不是您进行操作，请忽略此信息。";
-    printf(emailContent.c_str());
 #ifdef I_OS_LINUX
         //查询用户是否存在
     ExecutableProgram mysqlclientep("./mysqlclient");
@@ -46,6 +45,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
     userJson["userName"] = userName;
     userJson["phone"] = phone;
     userJson["email"] = email;
+    userJson["checkNumber"] = std::to_string(number);
     std::string temp = userJson.dump();
     QString tt = QString::fromStdString(temp);
     tt.replace("\"","\\\"");
@@ -74,7 +74,6 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
         emailsenderep.addArg("emailContent",emailContent);
     
         std::string emailsenderepResult = emailsenderep.exec();
-        printf(emailsenderepResult.c_str());
         auto jsonObject = nlohmann::json::parse(emailsenderepResult);
         bool success = jsonObject["success"].get<bool>();
         std::string msg = jsonObject["msg"].get<std::string>();

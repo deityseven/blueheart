@@ -63,7 +63,7 @@ func (d *Response) CheckNumberCompare(db *gorm.DB, data string) {
 	json.Unmarshal([]byte(data), &user)
 
 	var users []User
-	db.Where("phone = ? and checkNumber = ?", user.Phone, user.CheckNumber).Find(&users)
+	db.Where("phone = ? and check_number = ?", user.Phone, user.CheckNumber).Find(&users)
 	if len(users) == 1 {
 		d.Msg = "The checkNumber as identical"
 		d.Success = true

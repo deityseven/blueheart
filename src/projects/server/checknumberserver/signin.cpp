@@ -40,6 +40,7 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
     userJson["email"] = email;
     userJson["checkNumber"] = checkNumber;
     std::string temp = userJson.dump();
+    printf(temp.c_str());
     QString tt = QString::fromStdString(temp);
     tt.replace("\"","\\\"");
     temp = tt.toStdString();

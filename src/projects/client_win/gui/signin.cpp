@@ -45,7 +45,7 @@ void Signin::signin()
 
     std::string request = TransmitCenter::instance().toJson(&sr);
     std::string response;
-    if (!this->httpClient->getCheckNumber(request, response))
+    if (!this->httpClient->signin(request, response))
     {
         QMessageBox::warning(this, "错误", QString::fromStdString(response));
         this->sendToEmailTime = 0;
@@ -99,5 +99,6 @@ void Signin::init()
 void Signin::connectSignal()
 {
     connect(this->ui.senderToEmail, SIGNAL(clicked()), this, SLOT(senderToEmail()));
+    connect(this->ui.signin, SIGNAL(clicked()), this, SLOT(signin()));
     connect(this->sendToEmailTimer, SIGNAL(timeout()), this, SLOT(senderToEmailTimeout()));
 }
