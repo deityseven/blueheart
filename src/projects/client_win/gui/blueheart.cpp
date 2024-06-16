@@ -29,7 +29,7 @@ void BlueHeart::init()
     Login* login = new Login;
     this->ui.mainWidget->addWidget(login);
 
-    this->ui.mainWidget->setCurrentIndex(1);
+    this->ui.mainWidget->setCurrentIndex(0);
     connectSignal();
 }
 

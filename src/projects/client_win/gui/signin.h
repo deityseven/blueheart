@@ -26,7 +26,8 @@ private:
     virtual void init() override;
     virtual void connectSignal() override;
 
-    HttpClient* httpClient;
+    HttpClient* checkNumberServerClient;
+    HttpClient* signinServerClient;
     QTimer* sendToEmailTimer;
     uint sendToEmailTime;
 };

@@ -72,3 +72,16 @@ func (d *Response) CheckNumberCompare(db *gorm.DB, data string) {
 		d.Success = false
 	}
 }
+
+func (d *Response) UpdateUserPassword(db *gorm.DB, data string) {
+	var user User
+
+	db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARACTER SET utf8").AutoMigrate(&User{})
+
+	json.Unmarshal([]byte(data), &user)
+
+	db.Model(&User{}).Where("phone = ?", user.Phone).Update("password", user.Password)
+
+	d.Msg = "update success"
+	d.Success = true
+}

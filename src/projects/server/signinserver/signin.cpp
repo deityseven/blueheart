@@ -4,6 +4,7 @@
 #include <qstring.h>
 #include <util/platform_define.h>
 #include <executableprogram/executableprogram.h>
+#include <util/random_util.hpp>
 
 Signin::Signin(std::string configPath)
     :MysqlServerConfig(configPath)
@@ -20,7 +21,6 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
     std::string checkNumber = userInfo["checkNumber"].get<std::string>();
 
 #ifdef I_OS_LINUX
-        //查询用户是否存在
     ExecutableProgram mysqlclientep("./mysqlclient");
 #endif
 #ifdef I_OS_WIN
@@ -51,10 +51,46 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
     bool success = mysqlclientepResultJson["success"].get<bool>();
     std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
     
-    nlohmann::json root;
-    root["typeName"] = "SigninResponse";
-    root["success"] = success;
-    root["msg"] = msg;
+    if (success)
+    {
+        //生成用户密码保存到数据库后发送给客户端
+        auto password = RandomUtil::instance().generateInRange(100000000, 999999999);
+        userJson["password"] = password;
+        mysqlclientep.addArg("functionNeme", "UpdateUserPassword");
+        mysqlclientep.addArg("jsonData", temp);
+        std::string mysqlclientepResult = mysqlclientep.exec();
 
-    response.body = root.dump();
+        auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
+
+        bool success = mysqlclientepResultJson["success"].get<bool>();
+        std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
+
+        if (success)
+        {
+            nlohmann::json root;
+            root["typeName"] = "SigninResponse";
+            root["success"] = success;
+            root["msg"] = userJson.dump();
+
+            response.body = root.dump();
+        }
+        else
+        {
+            nlohmann::json root;
+            root["typeName"] = "SigninResponse";
+            root["success"] = success;
+            root["msg"] = mysqlclientepResult;
+
+            response.body = root.dump();
+        }
+    }
+    else
+    {
+        nlohmann::json root;
+        root["typeName"] = "SigninResponse";
+        root["success"] = success;
+        root["msg"] = msg;
+
+        response.body = root.dump();
+    }
 }

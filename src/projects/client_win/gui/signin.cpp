@@ -5,6 +5,8 @@
 #include <transmitcenter/transmitcenter.h>
 #include <qtimer.h>
 #include <qmessagebox.h>
+#include <executableprogram/executableprogram.h>
+#include <json/json.hpp>
 
 Signin::Signin(QWidget *parent)
     : QWidget(parent)
@@ -45,14 +47,45 @@ void Signin::signin()
 
     std::string request = TransmitCenter::instance().toJson(&sr);
     std::string response;
-    if (!this->httpClient->signin(request, response))
+    if (!this->signinServerClient->signin(request, response))
     {
         QMessageBox::warning(this, "错误", QString::fromStdString(response));
         this->sendToEmailTime = 0;
     }
     else
     {
-        QMessageBox::information(this, "信息", QString::fromStdString(response));
+        auto mysqlclientepResultJson = nlohmann::json::parse(response);
+        bool success = mysqlclientepResultJson["success"].get<bool>();
+        std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
+
+        if (success)
+        {
+            ExecutableProgram ziper("ziper.exe");
+
+            nlohmann::json jsonData;
+            jsonData["filePath"] = "./users/blueheart.user";
+            jsonData["jsonData"] = msg;
+
+            std::string arg = jsonData.dump();
+            ziper.addArg("functionNeme", "Zip");
+            ziper.addArg("jsonData", arg);
+
+            std::string ziperResponse = ziper.exec();
+
+            auto ziperResponseJson = nlohmann::json::parse(ziperResponse);
+
+            success = ziperResponseJson["success"].get<bool>();
+            msg = ziperResponseJson["msg"].get<std::string>();
+
+            if (success)
+            {
+                QMessageBox::information(this, "信息", "注册成功");
+            }
+        }
+        else
+        {
+            QMessageBox::warning(this, "错误", QString::fromStdString(msg));
+        }
     }
 }
 
@@ -64,7 +97,7 @@ void Signin::senderToEmail()
     cnr.setEmail(this->ui.email->text());
     std::string request = TransmitCenter::instance().toJson(&cnr);
     std::string response;
-    if (!this->httpClient->getCheckNumber(request, response))
+    if (!this->checkNumberServerClient->getCheckNumber(request, response))
     {
         QMessageBox::warning(this, "错误", QString::fromStdString(response));
         this->sendToEmailTime = 0;
@@ -81,11 +114,21 @@ void Signin::init()
     cf.beginSection("CheckNumberServer");
     if (cf.hasKey("host") && cf.hasKey("port"))
     {
-        this->httpClient = new HttpClient(cf.value("host").toString(), cf.value("port").toInt());
+        this->checkNumberServerClient = new HttpClient(cf.value("host").toString(), cf.value("port").toInt());
     }
     else
     {
-        this->httpClient = nullptr;
+        this->checkNumberServerClient = nullptr;
+    }
+
+    cf.beginSection("SigninServer");
+    if (cf.hasKey("host") && cf.hasKey("port"))
+    {
+        this->signinServerClient = new HttpClient(cf.value("host").toString(), cf.value("port").toInt());
+    }
+    else
+    {
+        this->signinServerClient = nullptr;
     }
     
     this->sendToEmailTimer = new QTimer(this);
