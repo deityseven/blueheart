@@ -29,6 +29,10 @@ std::string ExecutableProgram::exec()
     {
         auto argName = item.first;
         auto argValue = item.second;
+
+        QString temp = QString::fromStdString(argValue);
+        argValue = temp.replace("\"", "\\\"").toStdString();
+
         memset(buf, 0, 4096);
 #ifdef I_OS_LINUX
         sprintf(buf," -%s=\"%s\"", argName.c_str(), argValue.c_str());
@@ -36,6 +40,7 @@ std::string ExecutableProgram::exec()
 #ifdef I_OS_WIN
         sprintf(buf," -%s \"%s\"", argName.c_str(), argValue.c_str());
 #endif
+        
         argsStr += buf;
     }
 

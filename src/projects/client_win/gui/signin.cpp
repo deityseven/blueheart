@@ -57,8 +57,9 @@ void Signin::signin()
         ExecutableProgram ziper("ziper.exe");
 
         nlohmann::json jsonData;
-        jsonData["filePath"] = "./users/blueheart.user";
-        jsonData["jsonData"] = response;
+        jsonData["filePath"] = ".\\users\\blueheart.user";
+        QByteArray base64 = QByteArray::fromStdString(response).toBase64();
+        jsonData["jsonData"] = base64.toStdString();
 
         std::string arg = jsonData.dump();
         ziper.addArg("functionNeme", "Zip");
