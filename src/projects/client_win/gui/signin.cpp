@@ -54,33 +54,27 @@ void Signin::signin()
     }
     else
     {
-        auto mysqlclientepResultJson = nlohmann::json::parse(response);
-        bool success = mysqlclientepResultJson["success"].get<bool>();
-        std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
+        ExecutableProgram ziper("ziper.exe");
+
+        nlohmann::json jsonData;
+        jsonData["filePath"] = "./users/blueheart.user";
+        jsonData["jsonData"] = response;
+
+        std::string arg = jsonData.dump();
+        ziper.addArg("functionNeme", "Zip");
+        ziper.addArg("jsonData", arg);
+
+        std::string ziperResponse = ziper.exec();
+        printf(ziperResponse.c_str());
+
+        auto ziperResponseJson = nlohmann::json::parse(ziperResponse);
+
+        bool success = ziperResponseJson["success"].get<bool>();
+        std::string msg = ziperResponseJson["msg"].get<std::string>();
 
         if (success)
         {
-            ExecutableProgram ziper("ziper.exe");
-
-            nlohmann::json jsonData;
-            jsonData["filePath"] = "./users/blueheart.user";
-            jsonData["jsonData"] = msg;
-
-            std::string arg = jsonData.dump();
-            ziper.addArg("functionNeme", "Zip");
-            ziper.addArg("jsonData", arg);
-
-            std::string ziperResponse = ziper.exec();
-
-            auto ziperResponseJson = nlohmann::json::parse(ziperResponse);
-
-            success = ziperResponseJson["success"].get<bool>();
-            msg = ziperResponseJson["msg"].get<std::string>();
-
-            if (success)
-            {
-                QMessageBox::information(this, "信息", "注册成功");
-            }
+            QMessageBox::information(this, "信息", "注册成功");
         }
         else
         {

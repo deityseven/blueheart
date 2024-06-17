@@ -52,6 +52,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
     temp = tt.toStdString();
     mysqlclientep.addArg("jsonData",temp);
     std::string mysqlclientepResult = mysqlclientep.exec();
+    printf(mysqlclientepResult.c_str());
 
     auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
     bool success = mysqlclientepResultJson["success"].get<bool>();
@@ -83,7 +84,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
             mysqlclientep.addArg("functionNeme","AddUserInfo");
 
             std::string mysqlclientepResult = mysqlclientep.exec();
-
+            printf(mysqlclientepResult.c_str());
             auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
             bool success = mysqlclientepResultJson["success"].get<bool>();
             std::string msg = mysqlclientepResultJson["msg"].get<std::string>();

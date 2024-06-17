@@ -40,13 +40,11 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
     userJson["email"] = email;
     userJson["checkNumber"] = checkNumber;
     std::string temp = userJson.dump();
-    printf(temp.c_str());
     QString tt = QString::fromStdString(temp);
     tt.replace("\"","\\\"");
     temp = tt.toStdString();
     mysqlclientep.addArg("jsonData",temp);
     std::string mysqlclientepResult = mysqlclientep.exec();
-
     auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
     bool success = mysqlclientepResultJson["success"].get<bool>();
     std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
@@ -55,15 +53,20 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
     {
         //生成用户密码保存到数据库后发送给客户端
         auto password = RandomUtil::instance().generateInRange(100000000, 999999999);
-        userJson["password"] = password;
+        userJson["password"] = std::to_string(password);
         mysqlclientep.addArg("functionNeme", "UpdateUserPassword");
+
+        std::string temp = userJson.dump();
+        QString tt = QString::fromStdString(temp);
+        tt.replace("\"","\\\"");
+        temp = tt.toStdString();
         mysqlclientep.addArg("jsonData", temp);
-        std::string mysqlclientepResult = mysqlclientep.exec();
 
-        auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
+        std::string updateUserPasswordResult = mysqlclientep.exec();
+        auto updateUserPasswordResultJson = nlohmann::json::parse(updateUserPasswordResult);
 
-        bool success = mysqlclientepResultJson["success"].get<bool>();
-        std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
+        bool success = updateUserPasswordResultJson["success"].get<bool>();
+        std::string msg0 = updateUserPasswordResultJson["msg"].get<std::string>();
 
         if (success)
         {
@@ -79,7 +82,7 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
             nlohmann::json root;
             root["typeName"] = "SigninResponse";
             root["success"] = success;
-            root["msg"] = mysqlclientepResult;
+            root["msg"] = msg0;
 
             response.body = root.dump();
         }

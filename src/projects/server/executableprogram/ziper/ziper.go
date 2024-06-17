@@ -33,13 +33,13 @@ func (d *Response) Zip(input string) {
 		d.Success = false
 	}
 
+	os.WriteFile(zipData.FilePath, buf.Bytes(), 0644)
+
 	err = zipWriter.Close()
 	if err != nil {
 		d.Msg = "zip close failed"
 		d.Success = false
 	}
-
-	os.WriteFile(zipData.FilePath, buf.Bytes(), 0644)
 
 	d.Msg = "zip to " + zipData.FilePath
 	d.Success = true
