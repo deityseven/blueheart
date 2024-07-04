@@ -1,6 +1,5 @@
 #include <message/checknumberrequest.h>
-#include <message/checknumberresponse.h>
 #include <message/loginrequest.h>
-#include <message/loginresponse.h>
 #include <message/signinrequest.h>
-#include <message/signinresponse.h>
+#include <message/useremailrequest.h>
+#include <message/response.h>

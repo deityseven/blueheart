@@ -5,7 +5,7 @@
 #include <QTextStream>
 
 const char* headerTempldate = 
-"#ifndef %1\n#define %1\n\n#include \"message.h\"\n\nclass %0 : public Message\n{\n\tQ_OBJECT\n\n%2\npublic:\n\tQ_INVOKABLE %0(QObject* parent = nullptr);\n\tQ_INVOKABLE %0(const %0& other);\n\tQ_INVOKABLE ~%0();\n\n%3\n\nprivate:\n%4\n};\n\nQ_DECLARE_METATYPE(%0)\n\n#endif // !%1";
+"#ifndef %1\n#define %1\n\n#include \"message.h\"\n\nclass %0Private;\n\nclass %0 : public Message\n{\n\tQ_OBJECT\n\tQ_DECLARE_PRIVATE(%0)\n%2\npublic:\n\tQ_INVOKABLE %0(QObject* parent = nullptr);\n\tQ_INVOKABLE %0(const %0& other);\n\tQ_INVOKABLE ~%0();\n\n%3\n\nprivate:\n\tQScopedPointer<%0Private> d_ptr;\n};\n\nQ_DECLARE_METATYPE(%0)\n\n#endif // !%1";
 
 const char* propertyTemplate = 
 "\tQ_PROPERTY(%0 %1 READ %1 WRITE %2)\n";
@@ -61,6 +61,7 @@ void SerializableTool::buildHeader()
     //%4 属性成员变量
     QString className = this->ui.className->text();
     QString classMacro = QString(className + "_h").toUpper();
+    QString classPrivate = QString(className + "Private");
 
     QStringList propertyList = this->ui.propertyList->toPlainText().split("\n");
     QString propertyMacro;
@@ -90,21 +91,24 @@ void SerializableTool::buildHeader()
         propertyMemberVariable += QString(propertyMemberVariableTemplate).arg(propertyTypeName).arg(getProperty);
     }
 
-    QString headerFile = QString(headerTempldate).arg(className).arg(classMacro).arg(propertyMacro).arg(propertyFunctionStatement).arg(propertyMemberVariable);
+    QString headerFile = QString(headerTempldate).arg(className).arg(classMacro).arg(propertyMacro).arg(propertyFunctionStatement);//.arg(propertyMemberVariable);
 
     QString fileName = className.toLower() + ".h";
 
     saveTextFile(this->path + "/" + fileName, headerFile);
 }
 
+const char* privateTemplate = 
+"class %0Private\n{\npublic:\n\t%1\n};";
+
 const char* cppTemplate = 
-"#include \"%0\"\n\n%1::%1(QObject * parent)\n\t:Message(parent)\n{\n}\n\n%1::%1(const %1& other)\n{\n%3\n}\n\n%1::~%1()\n{\n}\n\n%4";
+"#include \"%0\"\n\n%5\n\n%1::%1(QObject * parent)\n\t:Message(parent),\n\td_ptr(new %1Private)\n{\n}\n\n%1::%1(const %1& other)\n{\n%3\n}\n\n%1::~%1()\n{\n}\n\n%4";
 
 const char* copyFunctionTemplate = 
-"\tthis->_%0 = other._%0;\n";
+"\tthis->d_ptr->%0 = other.d_ptr->%0;\n";
 
 const char* propertyImplTemplate = 
-"%0 %1::%2()\n{\n\treturn this->_%2;\n}\n\nvoid %1::%3(%0 data)\n{\n\tthis->_%2 = data;\n}\n";
+"%0 %1::%2()\n{\n\tQ_D(const %1);\n\treturn d->%2;\n}\n\nvoid %1::%3(%0 %2)\n{\n\tQ_D(%1);\n\td->%2 = %2;\n}\n";
 
 void SerializableTool::buildCpp()
 {
@@ -118,6 +122,7 @@ void SerializableTool::buildCpp()
     QStringList propertyList = this->ui.propertyList->toPlainText().split("\n");
     QString copyFunction;
     QString propertyImpl;
+    QString privateMember;
 
     for(auto property : propertyList)
     {
@@ -138,9 +143,13 @@ void SerializableTool::buildCpp()
         //%2 get方法
         //%3 set方法
         propertyImpl += QString(propertyImplTemplate).arg(propertyTypeName).arg(className).arg(getProperty).arg(setProperty);
+
+        privateMember += propertyTypeName + " " + getProperty + ";\n\t";
     }
     
-    QString cppFile = QString(cppTemplate).arg(headerFileName).arg(className).arg(copyFunction).arg(propertyImpl);
+    QString privateImpl = QString(privateTemplate).arg(className).arg(privateMember);
+
+    QString cppFile = QString(cppTemplate).arg(headerFileName).arg(className).arg(copyFunction).arg(propertyImpl).arg(privateImpl);
 
     QString fileName = className.toLower() + ".cpp";
 

@@ -52,11 +52,24 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
     temp = tt.toStdString();
     mysqlclientep.addArg("jsonData",temp);
     std::string mysqlclientepResult = mysqlclientep.exec();
-    printf(mysqlclientepResult.c_str());
 
     auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
     bool success = mysqlclientepResultJson["success"].get<bool>();
     std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
+
+    if(success)
+    {
+        auto queryUserNameIsExistResultJson = nlohmann::json::parse(msg);
+        bool success0 = queryUserNameIsExistResultJson["success"].get<bool>();
+        std::string msg0 = queryUserNameIsExistResultJson["msg"].get<std::string>();
+
+        if(!success0)
+        {
+            msg = msg0;
+            success = success0;
+        }
+    }
+
     if(success)
     {
         
@@ -75,6 +88,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
         emailsenderep.addArg("emailContent",emailContent);
     
         std::string emailsenderepResult = emailsenderep.exec();
+        printf(emailsenderepResult.c_str());
         auto jsonObject = nlohmann::json::parse(emailsenderepResult);
         bool success = jsonObject["success"].get<bool>();
         std::string msg = jsonObject["msg"].get<std::string>();
@@ -90,7 +104,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
             std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
 
             nlohmann::json root;
-            root["typeName"] = "CheckNumberResponse";
+            root["typeName"] = "Response";
             root["success"] = success;
             root["msg"] = msg;
 
@@ -104,7 +118,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
             std::string msg = "check number send to email failed";
 
             nlohmann::json root;
-            root["typeName"] = "CheckNumberResponse";
+            root["typeName"] = "Response";
             root["success"] = success;
             root["msg"] = msg;
 
@@ -115,7 +129,7 @@ void GetCheckNumber::operator()(const httplib::Request &request, httplib::Respon
     }
     
     nlohmann::json root;
-    root["typeName"] = "CheckNumberResponse";
+    root["typeName"] = "Response";
     root["success"] = success;
     root["msg"] = msg;
 

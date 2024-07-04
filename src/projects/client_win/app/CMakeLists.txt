@@ -10,18 +10,16 @@ set(CMAKE_AUTOMOC ON)
 set(MESSAGE_SRC
     message/message.h
     message/message.cpp
+    message/response.h
+    message/response.cpp
     message/signinrequest.h
     message/signinrequest.cpp
-    message/signinresponse.h
-    message/signinresponse.cpp
     message/checknumberrequest.h
     message/checknumberrequest.cpp
-    message/checknumberresponse.h
-    message/checknumberresponse.cpp
     message/loginrequest.h
     message/loginrequest.cpp
-    message/loginresponse.h
-    message/loginresponse.cpp
+    message/useremailrequest.h
+    message/useremailrequest.cpp
 )
 
 set(CLIENT_WIN_SRC

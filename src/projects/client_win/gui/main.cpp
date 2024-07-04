@@ -7,11 +7,9 @@ void initMessage()
 {
     qRegisterMetaType<Message>("Message");
     qRegisterMetaType<CheckNumberRequest>("CheckNumberRequest");
-    qRegisterMetaType<CheckNumberResponse>("CheckNumberResponse");
+    qRegisterMetaType<Response>("Response");
     qRegisterMetaType<LoginRequest>("LoginRequest");
-    qRegisterMetaType<LoginResponse>("LoginResponse");
     qRegisterMetaType<SigninRequest>("SigninRequest");
-    qRegisterMetaType<SigninResponse>("SigninResponse");
 }
 void RefTest(int argc, char* argv[])
 {

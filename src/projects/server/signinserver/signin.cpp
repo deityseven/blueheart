@@ -71,7 +71,7 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
         if (success)
         {
             nlohmann::json root;
-            root["typeName"] = "SigninResponse";
+            root["typeName"] = "Response";
             root["success"] = success;
             root["msg"] = userJson.dump();
 
@@ -80,7 +80,7 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
         else
         {
             nlohmann::json root;
-            root["typeName"] = "SigninResponse";
+            root["typeName"] = "Response";
             root["success"] = success;
             root["msg"] = msg0;
 
@@ -90,7 +90,7 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
     else
     {
         nlohmann::json root;
-        root["typeName"] = "SigninResponse";
+        root["typeName"] = "Response";
         root["success"] = success;
         root["msg"] = msg;
 

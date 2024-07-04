@@ -3,28 +3,31 @@
 
 #include "message.h"
 
+class LoginRequestPrivate;
+
 class LoginRequest : public Message
 {
 	Q_OBJECT
-
-	Q_PROPERTY(QString userName READ userName WRITE setUserName)
-	Q_PROPERTY(QString password READ password WRITE setPassword)
+	Q_DECLARE_PRIVATE(LoginRequest)
+	Q_PROPERTY(QString phone READ phone WRITE setPhone)
+	Q_PROPERTY(QString email READ email WRITE setEmail)
+	Q_PROPERTY(QString checkNumber READ checkNumber WRITE setCheckNumber)
 
 public:
 	Q_INVOKABLE LoginRequest(QObject* parent = nullptr);
 	Q_INVOKABLE LoginRequest(const LoginRequest& other);
 	Q_INVOKABLE ~LoginRequest();
 
-	Q_INVOKABLE QString userName();
-	Q_INVOKABLE void setUserName(QString data);
-	Q_INVOKABLE QString password();
-	Q_INVOKABLE void setPassword(QString data);
+	Q_INVOKABLE QString phone();
+	Q_INVOKABLE void setPhone(QString data);
+	Q_INVOKABLE QString email();
+	Q_INVOKABLE void setEmail(QString data);
+	Q_INVOKABLE QString checkNumber();
+	Q_INVOKABLE void setCheckNumber(QString data);
 
 
 private:
-	QString _userName;
-	QString _password;
-
+	QScopedPointer<LoginRequestPrivate> d_ptr;
 };
 
 Q_DECLARE_METATYPE(LoginRequest)

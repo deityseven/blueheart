@@ -3,10 +3,12 @@
 
 #include "message.h"
 
+class CheckNumberRequestPrivate;
+
 class CheckNumberRequest : public Message
 {
 	Q_OBJECT
-
+	Q_DECLARE_PRIVATE(CheckNumberRequest)
 	Q_PROPERTY(QString userName READ userName WRITE setUserName)
 	Q_PROPERTY(QString phone READ phone WRITE setPhone)
 	Q_PROPERTY(QString email READ email WRITE setEmail)
@@ -25,10 +27,7 @@ public:
 
 
 private:
-	QString _userName;
-	QString _phone;
-	QString _email;
-
+	QScopedPointer<CheckNumberRequestPrivate> d_ptr;
 };
 
 Q_DECLARE_METATYPE(CheckNumberRequest)

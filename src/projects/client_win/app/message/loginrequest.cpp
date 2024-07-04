@@ -1,14 +1,25 @@
 #include "loginrequest.h"
 
+class LoginRequestPrivate
+{
+public:
+	QString phone;
+	QString email;
+	QString checkNumber;
+	
+};
+
 LoginRequest::LoginRequest(QObject * parent)
-	:Message(parent)
+	:Message(parent),
+	d_ptr(new LoginRequestPrivate)
 {
 }
 
 LoginRequest::LoginRequest(const LoginRequest& other)
 {
-	this->_userName = other._userName;
-	this->_password = other._password;
+	this->d_ptr->phone = other.d_ptr->phone;
+	this->d_ptr->email = other.d_ptr->email;
+	this->d_ptr->checkNumber = other.d_ptr->checkNumber;
 
 }
 
@@ -16,21 +27,36 @@ LoginRequest::~LoginRequest()
 {
 }
 
-QString LoginRequest::userName()
+QString LoginRequest::phone()
 {
-	return this->_userName;
+	Q_D(const LoginRequest);
+	return d->phone;
 }
 
-void LoginRequest::setUserName(QString data)
+void LoginRequest::setPhone(QString phone)
 {
-	this->_userName = data;
+	Q_D(LoginRequest);
+	d->phone = phone;
 }
-QString LoginRequest::password()
+QString LoginRequest::email()
 {
-	return this->_password;
+	Q_D(const LoginRequest);
+	return d->email;
 }
 
-void LoginRequest::setPassword(QString data)
+void LoginRequest::setEmail(QString email)
 {
-	this->_password = data;
+	Q_D(LoginRequest);
+	d->email = email;
+}
+QString LoginRequest::checkNumber()
+{
+	Q_D(const LoginRequest);
+	return d->checkNumber;
+}
+
+void LoginRequest::setCheckNumber(QString checkNumber)
+{
+	Q_D(LoginRequest);
+	d->checkNumber = checkNumber;
 }

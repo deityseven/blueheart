@@ -3,10 +3,12 @@
 
 #include "message.h"
 
+class SigninRequestPrivate;
+
 class SigninRequest : public Message
 {
 	Q_OBJECT
-
+	Q_DECLARE_PRIVATE(SigninRequest)
 	Q_PROPERTY(QString userName READ userName WRITE setUserName)
 	Q_PROPERTY(QString phone READ phone WRITE setPhone)
 	Q_PROPERTY(QString email READ email WRITE setEmail)
@@ -28,11 +30,7 @@ public:
 
 
 private:
-	QString _userName;
-	QString _phone;
-	QString _email;
-	QString _checkNumber;
-
+	QScopedPointer<SigninRequestPrivate> d_ptr;
 };
 
 Q_DECLARE_METATYPE(SigninRequest)

@@ -7,14 +7,22 @@
 #include <QMetaProperty>
 #include <qarraydata.h>
 #include <qdebug.h>
+#include <QObject>
+
+struct SerializablePrivate
+{
+	QString typeName;
+};
 
 Serializable::Serializable(QObject* parent)
-	:QObject(parent)
+	:QObject(parent),
+	d_ptr(new SerializablePrivate)
 {
 }
 
-Serializable::Serializable(const Serializable& other)
+Serializable::Serializable(const Serializable &other)
 {
+	this->d_ptr->typeName = other.d_ptr->typeName;
 }
 
 Serializable::~Serializable()
@@ -101,7 +109,15 @@ void Serializable::deserialization(QString data)
 	}
 }
 
-Serializable& Serializable::operator=(const Serializable&)
+QString Serializable::typeName()
 {
-	return *this;
+	Q_D(const Serializable);
+	return d->typeName;
 }
+
+void Serializable::setTypeName(QString typeName)
+{
+	Q_D(Serializable);
+	d->typeName = typeName;
+}
+

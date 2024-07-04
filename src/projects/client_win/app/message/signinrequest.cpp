@@ -1,16 +1,27 @@
 #include "signinrequest.h"
 
+class SigninRequestPrivate
+{
+public:
+	QString userName;
+	QString phone;
+	QString email;
+	QString checkNumber;
+	
+};
+
 SigninRequest::SigninRequest(QObject * parent)
-	:Message(parent)
+	:Message(parent),
+	d_ptr(new SigninRequestPrivate)
 {
 }
 
 SigninRequest::SigninRequest(const SigninRequest& other)
 {
-	this->_userName = other._userName;
-	this->_phone = other._phone;
-	this->_email = other._email;
-	this->_checkNumber = other._checkNumber;
+	this->d_ptr->userName = other.d_ptr->userName;
+	this->d_ptr->phone = other.d_ptr->phone;
+	this->d_ptr->email = other.d_ptr->email;
+	this->d_ptr->checkNumber = other.d_ptr->checkNumber;
 
 }
 
@@ -20,37 +31,45 @@ SigninRequest::~SigninRequest()
 
 QString SigninRequest::userName()
 {
-	return this->_userName;
+	Q_D(const SigninRequest);
+	return d->userName;
 }
 
-void SigninRequest::setUserName(QString data)
+void SigninRequest::setUserName(QString userName)
 {
-	this->_userName = data;
+	Q_D(SigninRequest);
+	d->userName = userName;
 }
 QString SigninRequest::phone()
 {
-	return this->_phone;
+	Q_D(const SigninRequest);
+	return d->phone;
 }
 
-void SigninRequest::setPhone(QString data)
+void SigninRequest::setPhone(QString phone)
 {
-	this->_phone = data;
+	Q_D(SigninRequest);
+	d->phone = phone;
 }
 QString SigninRequest::email()
 {
-	return this->_email;
+	Q_D(const SigninRequest);
+	return d->email;
 }
 
-void SigninRequest::setEmail(QString data)
+void SigninRequest::setEmail(QString email)
 {
-	this->_email = data;
+	Q_D(SigninRequest);
+	d->email = email;
 }
 QString SigninRequest::checkNumber()
 {
-	return this->_checkNumber;
+	Q_D(const SigninRequest);
+	return d->checkNumber;
 }
 
-void SigninRequest::setCheckNumber(QString data)
+void SigninRequest::setCheckNumber(QString checkNumber)
 {
-	this->_checkNumber = data;
+	Q_D(SigninRequest);
+	d->checkNumber = checkNumber;
 }

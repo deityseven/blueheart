@@ -1,15 +1,25 @@
 #include "checknumberrequest.h"
 
+class CheckNumberRequestPrivate
+{
+public:
+	QString userName;
+	QString phone;
+	QString email;
+	
+};
+
 CheckNumberRequest::CheckNumberRequest(QObject * parent)
-	:Message(parent)
+	:Message(parent),
+	d_ptr(new CheckNumberRequestPrivate)
 {
 }
 
 CheckNumberRequest::CheckNumberRequest(const CheckNumberRequest& other)
 {
-	this->_userName = other._userName;
-	this->_phone = other._phone;
-	this->_email = other._email;
+	this->d_ptr->userName = other.d_ptr->userName;
+	this->d_ptr->phone = other.d_ptr->phone;
+	this->d_ptr->email = other.d_ptr->email;
 
 }
 
@@ -19,28 +29,34 @@ CheckNumberRequest::~CheckNumberRequest()
 
 QString CheckNumberRequest::userName()
 {
-	return this->_userName;
+	Q_D(const CheckNumberRequest);
+	return d->userName;
 }
 
-void CheckNumberRequest::setUserName(QString data)
+void CheckNumberRequest::setUserName(QString userName)
 {
-	this->_userName = data;
+	Q_D(CheckNumberRequest);
+	d->userName = userName;
 }
 QString CheckNumberRequest::phone()
 {
-	return this->_phone;
+	Q_D(const CheckNumberRequest);
+	return d->phone;
 }
 
-void CheckNumberRequest::setPhone(QString data)
+void CheckNumberRequest::setPhone(QString phone)
 {
-	this->_phone = data;
+	Q_D(CheckNumberRequest);
+	d->phone = phone;
 }
 QString CheckNumberRequest::email()
 {
-	return this->_email;
+	Q_D(const CheckNumberRequest);
+	return d->email;
 }
 
-void CheckNumberRequest::setEmail(QString data)
+void CheckNumberRequest::setEmail(QString email)
 {
-	this->_email = data;
+	Q_D(CheckNumberRequest);
+	d->email = email;
 }
