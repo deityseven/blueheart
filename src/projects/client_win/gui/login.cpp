@@ -7,6 +7,7 @@
 #include <qtimer.h>
 #include <qmessagebox.h>
 #include <executableprogram/ziperprogram.h>
+#include <util/file_util.h>
 
 Login::Login(QWidget *parent) :
     QWidget(parent)
@@ -34,6 +35,14 @@ void Login::senderToEmailTimeout()
         this->ui.senderToEmail->setText("发送至邮箱");
         this->ui.senderToEmail->setEnabled(true);
         this->sendToEmailTime = 0;
+    }
+}
+
+void Login::checkUserInfoTimeout()
+{
+    if(FileUtil::fileIsExist(".\\users\\blueheart.user"))
+    {
+        
     }
 }
 
@@ -112,6 +121,10 @@ void Login::init()
     this->sendToEmailTimer->setInterval(1000);
     this->sendToEmailTimer->start();
 
+    this->checkUserInfoTimer = new QTimer(this);
+    this->checkUserInfoTimer->setInterval(1000);
+    this->checkUserInfoTimer->start();
+
     connectSignal();
 }
 
@@ -120,4 +133,5 @@ void Login::connectSignal()
     connect(this->ui.senderToEmail, SIGNAL(clicked()), this, SLOT(senderToEmail()));
     connect(this->ui.login, SIGNAL(clicked()), this, SLOT(login()));
     connect(this->sendToEmailTimer, SIGNAL(timeout()), this, SLOT(senderToEmailTimeout()));
+    connect(this->checkUserInfoTimer, SIGNAL(timeout()), this, SLOT(checkUserInfoTimeout()));
 }

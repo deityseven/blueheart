@@ -20,6 +20,7 @@ public:
 public slots:
     void senderToEmail();
     void senderToEmailTimeout();
+    void checkUserInfoTimeout();
     void login();
 private:
     Ui::Login ui;
@@ -27,6 +28,7 @@ private:
     CheckNumberClient* checkNumberServerClient;
     LoginClient* loginServerClient;
     QTimer* sendToEmailTimer;
+    QTimer* checkUserInfoTimer;
     uint sendToEmailTime;
 
     virtual void init() override;
