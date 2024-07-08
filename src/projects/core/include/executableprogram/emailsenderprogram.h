@@ -14,7 +14,6 @@ public:
 
     bool senderEmail(std::string recverEmail, std::string theme, std::string emailContent, std::string &msg);
 private:
-    bool parseResult(std::string& msg);
     ExecutableProgram* ep;
 };
 

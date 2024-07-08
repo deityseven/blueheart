@@ -3,7 +3,7 @@
 #include <string>
 #include <qstring.h>
 #include <util/platform_define.h>
-#include <executableprogram/executableprogram.h>
+#include <executableprogram/mysqlprogram.h>
 #include <util/random_util.hpp>
 
 Signin::Signin(std::string configPath)
@@ -13,26 +13,15 @@ Signin::Signin(std::string configPath)
 
 void Signin::operator()(const httplib::Request &request, httplib::Response &response)
 {
+    bool success;
+    std::string msg;
+
     auto userInfo = nlohmann::json::parse(request.body);
 
     std::string userName = userInfo["userName"].get<std::string>();
     std::string phone = userInfo["phone"].get<std::string>();
     std::string email = userInfo["email"].get<std::string>();
     std::string checkNumber = userInfo["checkNumber"].get<std::string>();
-
-#ifdef I_OS_LINUX
-    ExecutableProgram mysqlclientep("./mysqlclient");
-#endif
-#ifdef I_OS_WIN
-    ExecutableProgram mysqlclientep("mysqlclient.exe");
-#endif
-
-    mysqlclientep.addArg("userName",MysqlServerConfig::userName);
-    mysqlclientep.addArg("password",MysqlServerConfig::password);
-    mysqlclientep.addArg("serverHost",MysqlServerConfig::serverHost);
-    mysqlclientep.addArg("serverPort",MysqlServerConfig::serverPort);
-    mysqlclientep.addArg("database",MysqlServerConfig::database);
-    mysqlclientep.addArg("functionNeme","CheckNumberCompare");
 
     nlohmann::json userJson;
     userJson["userName"] = userName;
@@ -43,57 +32,28 @@ void Signin::operator()(const httplib::Request &request, httplib::Response &resp
     QString tt = QString::fromStdString(temp);
     tt.replace("\"","\\\"");
     temp = tt.toStdString();
-    mysqlclientep.addArg("jsonData",temp);
-    std::string mysqlclientepResult = mysqlclientep.exec();
-    auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
-    bool success = mysqlclientepResultJson["success"].get<bool>();
-    std::string msg = mysqlclientepResultJson["msg"].get<std::string>();
-    
-    if (success)
+
+    MysqlProgram mp(this);
+    if(success = mp.checkNumberCompare(temp, msg))
     {
         //生成用户密码保存到数据库后发送给客户端
         auto password = RandomUtil::instance().generateInRange(100000000, 999999999);
         userJson["password"] = std::to_string(password);
-        mysqlclientep.addArg("functionNeme", "UpdateUserPassword");
 
         std::string temp = userJson.dump();
         QString tt = QString::fromStdString(temp);
         tt.replace("\"","\\\"");
         temp = tt.toStdString();
-        mysqlclientep.addArg("jsonData", temp);
-
-        std::string updateUserPasswordResult = mysqlclientep.exec();
-        auto updateUserPasswordResultJson = nlohmann::json::parse(updateUserPasswordResult);
-
-        bool success = updateUserPasswordResultJson["success"].get<bool>();
-        std::string msg0 = updateUserPasswordResultJson["msg"].get<std::string>();
-
-        if (success)
+        if(success = mp.updateUserPassword(temp, msg))
         {
-            nlohmann::json root;
-            root["typeName"] = "Response";
-            root["success"] = success;
-            root["msg"] = userJson.dump();
-
-            response.body = root.dump();
-        }
-        else
-        {
-            nlohmann::json root;
-            root["typeName"] = "Response";
-            root["success"] = success;
-            root["msg"] = msg0;
-
-            response.body = root.dump();
+            msg = userJson.dump();
         }
     }
-    else
-    {
-        nlohmann::json root;
-        root["typeName"] = "Response";
-        root["success"] = success;
-        root["msg"] = msg;
 
-        response.body = root.dump();
-    }
+    nlohmann::json root;
+    root["typeName"] = "Response";
+    root["success"] = success;
+    root["msg"] = msg;
+
+    response.body = root.dump();
 }

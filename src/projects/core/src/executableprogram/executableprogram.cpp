@@ -86,3 +86,14 @@ std::string ExecutableProgram::exec()
 
     return result;
 }
+
+bool ExecutableProgram::getExecResult(std::string &msg)
+{
+    std::string mysqlclientepResult = this->exec();
+
+    auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
+    bool success = mysqlclientepResultJson["success"].get<bool>();
+    msg = mysqlclientepResultJson["msg"].get<std::string>();
+
+    return success;
+}

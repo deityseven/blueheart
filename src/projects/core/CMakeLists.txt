@@ -102,6 +102,8 @@ set(EXECUTABLEPROGRAM_SRC
     ${SOURCEC_DIR}/executableprogram/emailsenderprogram.cpp
     ${INCLUDE_DIR}/executableprogram/mysqlprogram.h
     ${SOURCEC_DIR}/executableprogram/mysqlprogram.cpp
+    ${INCLUDE_DIR}/executableprogram/ziperprogram.h
+    ${SOURCEC_DIR}/executableprogram/ziperprogram.cpp
 )
 
 #筛选显示

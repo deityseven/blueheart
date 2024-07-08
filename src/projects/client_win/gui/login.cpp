@@ -6,6 +6,7 @@
 #include <transmitcenter/transmitcenter.h>
 #include <qtimer.h>
 #include <qmessagebox.h>
+#include <executableprogram/ziperprogram.h>
 
 Login::Login(QWidget *parent) :
     QWidget(parent)
@@ -62,15 +63,24 @@ void Login::login()
     lr.setCheckNumber(this->ui.checkNumber->text());
 
     std::string request = TransmitCenter::instance().toJson(&lr);
-    std::string response;
-    if (!this->loginServerClient->login(request, response))
+    std::string userInfo;
+    if (!this->loginServerClient->login(request, userInfo))
     {
-        QMessageBox::warning(this, "错误", QString::fromStdString(response));
+        QMessageBox::warning(this, "错误", QString::fromStdString(userInfo));
         this->sendToEmailTime = 0;
+        return;
+    }
+
+    std::string ziperResponse;
+    ZiperProgram zp;
+
+    if(zp.zip(".\\users\\blueheart.user", userInfo, ziperResponse))
+    {
+        QMessageBox::information(this, "信息", "注册成功");
     }
     else
     {
-        
+        QMessageBox::warning(this, "错误", QString::fromStdString(ziperResponse));
     }
 }
 

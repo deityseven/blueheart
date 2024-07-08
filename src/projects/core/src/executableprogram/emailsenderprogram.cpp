@@ -30,16 +30,5 @@ bool EmailSenderProgram::senderEmail(std::string recverEmail, std::string theme,
     this->ep->addArg("theme",theme);
     this->ep->addArg("emailContent",emailContent);
 
-    return parseResult(msg);
-}
-
-bool EmailSenderProgram::parseResult(std::string &msg)
-{
-    std::string mysqlclientepResult = this->ep->exec();
-
-    auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
-    bool success = mysqlclientepResultJson["success"].get<bool>();
-    msg = mysqlclientepResultJson["msg"].get<std::string>();
-
-    return success;
+    return this->ep->getExecResult(msg);
 }

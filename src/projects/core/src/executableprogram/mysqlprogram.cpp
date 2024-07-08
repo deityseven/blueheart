@@ -31,13 +31,13 @@ bool MysqlProgram::queryUserNameIsExist(std::string jsonData, std::string &msg)
     this->ep->addArg("jsonData", jsonData);
 
     std::string result;
-    bool success = parseResult(result);
+    bool success = this->ep->getExecResult(msg);
 
     if(success)
     {
-        auto queryUserNameIsExistResultJson = nlohmann::json::parse(result);
-        bool success0 = queryUserNameIsExistResultJson["success"].get<bool>();
-        msg = queryUserNameIsExistResultJson["msg"].get<std::string>();
+        auto resultJson = nlohmann::json::parse(result);
+        bool success0 = resultJson["success"].get<bool>();
+        msg = resultJson["msg"].get<std::string>();
 
         return success0;
     }
@@ -52,13 +52,13 @@ bool MysqlProgram::addUserInfo(std::string jsonData, std::string &msg)
     this->ep->addArg("jsonData", jsonData);
 
     std::string result;
-    bool success = parseResult(result);
+    bool success = this->ep->getExecResult(msg);
 
     if(success)
     {
-        auto addUserInfoResultJson = nlohmann::json::parse(result);
-        bool success0 = addUserInfoResultJson["success"].get<bool>();
-        msg = addUserInfoResultJson["msg"].get<std::string>();
+        auto resultJson = nlohmann::json::parse(result);
+        bool success0 = resultJson["success"].get<bool>();
+        msg = resultJson["msg"].get<std::string>();
 
         return success0;
     }
@@ -67,13 +67,44 @@ bool MysqlProgram::addUserInfo(std::string jsonData, std::string &msg)
     return false;
 }
 
-bool MysqlProgram::parseResult(std::string &msg)
+bool MysqlProgram::checkNumberCompare(std::string jsonData, std::string &msg)
 {
-    std::string mysqlclientepResult = this->ep->exec();
+    this->ep->addArg("functionNeme","CheckNumberCompare");
+    this->ep->addArg("jsonData", jsonData);
 
-    auto mysqlclientepResultJson = nlohmann::json::parse(mysqlclientepResult);
-    bool success = mysqlclientepResultJson["success"].get<bool>();
-    msg = mysqlclientepResultJson["msg"].get<std::string>();
+    std::string result;
+    bool success = this->ep->getExecResult(msg);
 
-    return success;
+    if(success)
+    {
+        auto resultJson = nlohmann::json::parse(result);
+        bool success0 = resultJson["success"].get<bool>();
+        msg = resultJson["msg"].get<std::string>();
+
+        return success0;
+    }
+
+    msg = result;
+    return false;
+}
+bool MysqlProgram::updateUserPassword(std::string jsonData, std::string &msg)
+{
+    this->ep->addArg("functionNeme","UpdateUserPassword");
+    this->ep->addArg("jsonData", jsonData);
+
+    std::string result;
+    bool success = this->ep->getExecResult(msg);
+
+    if(success)
+    {
+        auto resultJson = nlohmann::json::parse(result);
+        bool success0 = resultJson["success"].get<bool>();
+        msg = resultJson["msg"].get<std::string>();
+
+        return success0;
+    }
+
+    msg = result;
+    return false;
+    return false;
 }

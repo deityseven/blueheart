@@ -11,9 +11,10 @@ public:
 	~ExecutableProgram();
 
     void addArg(std::string arg, std::string value);
+    bool getExecResult(std::string &msg);
+protected:
     std::string exec();
-
-private:
+protected:
     std::string path;
     std::map<std::string, std::string> args;
 };

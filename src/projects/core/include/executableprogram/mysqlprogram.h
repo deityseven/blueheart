@@ -14,8 +14,9 @@ public:
 
     bool queryUserNameIsExist(std::string jsonData, std::string &msg);
     bool addUserInfo(std::string jsonData, std::string &msg);
+    bool checkNumberCompare(std::string jsonData, std::string &msg);
+    bool updateUserPassword(std::string jsonData, std::string &msg);
 private:
-    bool parseResult(std::string& msg);
     ExecutableProgram* ep;
 };
 

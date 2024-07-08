@@ -7,6 +7,7 @@
 #include <qtimer.h>
 #include <qmessagebox.h>
 #include <executableprogram/executableprogram.h>
+#include <executableprogram/ziperprogram.h>
 #include <json/json.hpp>
 
 Signin::Signin(QWidget *parent)
@@ -55,32 +56,16 @@ void Signin::signin()
     }
     else
     {
-        ExecutableProgram ziper("ziper.exe");
+        std::string ziperResponse;
+        ZiperProgram zp;
 
-        nlohmann::json jsonData;
-        jsonData["filePath"] = ".\\users\\blueheart.user";
-        QByteArray base64 = QByteArray::fromStdString(response).toBase64();
-        jsonData["jsonData"] = base64.toStdString();
-
-        std::string arg = jsonData.dump();
-        ziper.addArg("functionNeme", "Zip");
-        ziper.addArg("jsonData", arg);
-
-        std::string ziperResponse = ziper.exec();
-        printf(ziperResponse.c_str());
-
-        auto ziperResponseJson = nlohmann::json::parse(ziperResponse);
-
-        bool success = ziperResponseJson["success"].get<bool>();
-        std::string msg = ziperResponseJson["msg"].get<std::string>();
-
-        if (success)
+        if(zp.zip(".\\users\\blueheart.user", response, ziperResponse))
         {
             QMessageBox::information(this, "信息", "注册成功");
         }
         else
         {
-            QMessageBox::warning(this, "错误", QString::fromStdString(msg));
+            QMessageBox::warning(this, "错误", QString::fromStdString(ziperResponse));
         }
     }
 }
