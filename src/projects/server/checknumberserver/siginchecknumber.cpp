@@ -7,7 +7,7 @@
 #include <util/random_util.hpp>
 #include <util/platform_define.h>
 #include <executableprogram/executableprogram.h>
-#include <executableprogram/msyqlprogram.h>
+#include <executableprogram/mysqlprogram.h>
 #include <executableprogram/emailsenderprogram.h>
 #include <qstring.h>
 

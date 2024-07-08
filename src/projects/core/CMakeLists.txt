@@ -96,6 +96,10 @@ set(BUILDER_SRC
 set(EXECUTABLEPROGRAM_SRC
     ${INCLUDE_DIR}/executableprogram/executableprogram.h
     ${SOURCEC_DIR}/executableprogram/executableprogram.cpp
+    ${INCLUDE_DIR}/executableprogram/emailsenderprogram.h
+    ${SOURCEC_DIR}/executableprogram/emailsenderprogram.cpp
+    ${INCLUDE_DIR}/executableprogram/mysqlprogram.h
+    ${SOURCEC_DIR}/executableprogram/mysqlprogram.cpp
 )
 
 #筛选显示

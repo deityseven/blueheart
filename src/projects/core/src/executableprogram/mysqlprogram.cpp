@@ -1,4 +1,4 @@
-#include "msyqlprogram.h"
+#include <executableprogram/mysqlprogram.h>
 #include <util/platform_define.h>
 #include <executableprogram/executableprogram.h>
 #include <util/mysqlserverconfig.h>

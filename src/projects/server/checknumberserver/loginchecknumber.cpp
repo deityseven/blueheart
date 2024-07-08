@@ -2,7 +2,7 @@
 #include <json/json.hpp>
 #include <string>
 #include <util/random_util.hpp>
-#include <executableprogram/msyqlprogram.h>
+#include <executableprogram/mysqlprogram.h>
 #include <executableprogram/emailsenderprogram.h>
 #include <qstring.h>
 
