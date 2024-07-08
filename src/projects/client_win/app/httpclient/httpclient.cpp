@@ -13,29 +13,24 @@ HttpClient::~HttpClient()
 {
 }
 
-bool HttpClient::getCheckNumber(std::string request, std::string& response)
+bool HttpClient::siginCheckNumber(std::string request, std::string& response)
 {
-    auto result = this->client->Post("/api/getCheckNumber", request, "application/json");
+    return callApi("/api/siginCheckNumber", request, response);
+}
 
-    if (result && (result->status == 200))
-    {
-        std::string data = result->body;
-        QObject* obj = TransmitCenter::instance().fromJson(data);
-
-        bool success = obj->property("success").toBool();
-        std::string msg = obj->property("msg").toString().toStdString();
-
-        response = msg;
-        return success;
-    }
-
-    response = "与服务器通讯失败...请检查网络";
-    return false;
+bool HttpClient::loginCheckNumber(std::string request, std::string &response)
+{
+    return callApi("/api/loginCheckNumber", request, response);
 }
 
 bool HttpClient::signin(std::string request, std::string &response)
 {
-    auto result = this->client->Post("/api/signin", request, "application/json");
+    return callApi("/api/signin", request, response);
+}
+
+bool HttpClient::callApi(std::string api, std::string request, std::string &response)
+{
+    auto result = this->client->Post(api.c_str(), request, "application/json");
 
     if (result && (result->status == 200))
     {

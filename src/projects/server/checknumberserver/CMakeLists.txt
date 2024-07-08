@@ -8,8 +8,10 @@ set(MAIN_SRC
 	main.cpp
 	httpserver.h
 	httpserver.cpp
-	getchecknumber.h
-	getchecknumber.cpp
+	siginchecknumber.h
+	siginchecknumber.cpp
+	loginchecknumber.h
+	loginchecknumber.cpp
 )
 
 set(SRCS 

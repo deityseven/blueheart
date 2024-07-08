@@ -31,10 +31,10 @@ func (d *Response) QueryUserNameIsExist(db *gorm.DB, data string) {
 	db.Where("phone = ?", user.Phone).Find(&users)
 	if len(users) >= 1 {
 		d.Msg = "The phone number is registered"
-		d.Success = false
+		d.Success = true
 	} else {
 		d.Msg = "The phone number isn't registered"
-		d.Success = true
+		d.Success = false
 	}
 }
 

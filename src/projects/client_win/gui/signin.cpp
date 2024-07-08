@@ -92,7 +92,7 @@ void Signin::senderToEmail()
     cnr.setEmail(this->ui.email->text());
     std::string request = TransmitCenter::instance().toJson(&cnr);
     std::string response;
-    if (!this->checkNumberServerClient->getCheckNumber(request, response))
+    if (!this->checkNumberServerClient->siginCheckNumber(request, response))
     {
         QMessageBox::warning(this, "错误", QString::fromStdString(response));
         this->sendToEmailTime = 0;
