@@ -5,7 +5,8 @@
 #include "ui_login.h"
 #include <widget/widgetinit.h>
 
-class HttpClient;
+class CheckNumberClient;
+class LoginClient;
 class QTimer;
 
 class Login : public QWidget, public WidgetInit
@@ -23,7 +24,8 @@ public slots:
 private:
     Ui::Login ui;
 
-    HttpClient* httpClient;
+    CheckNumberClient* checkNumberServerClient;
+    LoginClient* loginServerClient;
     QTimer* sendToEmailTimer;
     uint sendToEmailTime;
 

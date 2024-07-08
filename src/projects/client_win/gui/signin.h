@@ -4,7 +4,8 @@
 #include "ui_signin.h"
 #include <widget/widgetinit.h>
 
-class HttpClient;
+class SiginClient;
+class CheckNumberClient;
 class QTimer;
 
 class Signin : public QWidget, public WidgetInit
@@ -26,8 +27,8 @@ private:
     virtual void init() override;
     virtual void connectSignal() override;
 
-    HttpClient* checkNumberServerClient;
-    HttpClient* signinServerClient;
+    CheckNumberClient* checkNumberServerClient;
+    SiginClient* signinServerClient;
     QTimer* sendToEmailTimer;
     uint sendToEmailTime;
 };

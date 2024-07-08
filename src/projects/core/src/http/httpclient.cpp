@@ -1,4 +1,4 @@
-#include "httpclient.h"
+#include <http/httpclient.h>
 #include <http/httplib.h>
 #include <json/json.hpp>
 #include <transmitcenter/transmitcenter.h>
@@ -11,21 +11,6 @@ HttpClient::HttpClient(std::string serverHost, unsigned int serverPort)
 
 HttpClient::~HttpClient()
 {
-}
-
-bool HttpClient::siginCheckNumber(std::string request, std::string& response)
-{
-    return callApi("/api/siginCheckNumber", request, response);
-}
-
-bool HttpClient::loginCheckNumber(std::string request, std::string &response)
-{
-    return callApi("/api/loginCheckNumber", request, response);
-}
-
-bool HttpClient::signin(std::string request, std::string &response)
-{
-    return callApi("/api/signin", request, response);
 }
 
 bool HttpClient::callApi(std::string api, std::string request, std::string &response)

@@ -1,5 +1,6 @@
 #include "login.h"
-#include <httpclient/httpclient.h>
+#include <httpclient/loginclient.h>
+#include <httpclient/checknumberclient.h>
 #include <configfile/config_file.h>
 #include <message/all>
 #include <transmitcenter/transmitcenter.h>
@@ -42,7 +43,7 @@ void Login::senderToEmail()
     cnr.setEmail(this->ui.email->text());
     std::string request = TransmitCenter::instance().toJson(&cnr);
     std::string response;
-    if (!this->httpClient->loginCheckNumber(request, response))
+    if (!this->checkNumberServerClient->loginCheckNumber(request, response))
     {
         QMessageBox::warning(this, "错误", QString::fromStdString(response));
         this->sendToEmailTime = 0;
@@ -55,20 +56,45 @@ void Login::senderToEmail()
 
 void Login::login()
 {
-    
+    LoginRequest lr;
+    lr.setPhone(this->ui.phone->text());
+    lr.setEmail(this->ui.email->text());
+    lr.setCheckNumber(this->ui.checkNumber->text());
+
+    std::string request = TransmitCenter::instance().toJson(&lr);
+    std::string response;
+    if (!this->loginServerClient->login(request, response))
+    {
+        QMessageBox::warning(this, "错误", QString::fromStdString(response));
+        this->sendToEmailTime = 0;
+    }
+    else
+    {
+        
+    }
 }
 
 void Login::init()
 {
     ConfigFile cf("./config/network.json");
-    cf.beginSection("SigninServer");
+    cf.beginSection("CheckNumberServer");
     if (cf.hasKey("host") && cf.hasKey("port"))
     {
-        this->httpClient = new HttpClient(cf.value("host").toString(), cf.value("port").toInt());
+        this->checkNumberServerClient = new CheckNumberClient(cf.value("host").toString(), cf.value("port").toInt());
     }
     else
     {
-        this->httpClient = nullptr;
+        this->checkNumberServerClient = nullptr;
+    }
+
+    cf.beginSection("LoginServer");
+    if (cf.hasKey("host") && cf.hasKey("port"))
+    {
+        this->loginServerClient = new LoginClient(cf.value("host").toString(), cf.value("port").toInt());
+    }
+    else
+    {
+        this->loginServerClient = nullptr;
     }
     
     this->sendToEmailTimer = new QTimer(this);

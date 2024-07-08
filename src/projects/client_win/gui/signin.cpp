@@ -1,5 +1,6 @@
 #include "signin.h"
-#include <httpclient/httpclient.h>
+#include <httpclient/siginclient.h>
+#include <httpclient/checknumberclient.h>
 #include <configfile/config_file.h>
 #include <message/all>
 #include <transmitcenter/transmitcenter.h>
@@ -109,7 +110,7 @@ void Signin::init()
     cf.beginSection("CheckNumberServer");
     if (cf.hasKey("host") && cf.hasKey("port"))
     {
-        this->checkNumberServerClient = new HttpClient(cf.value("host").toString(), cf.value("port").toInt());
+        this->checkNumberServerClient = new CheckNumberClient(cf.value("host").toString(), cf.value("port").toInt());
     }
     else
     {
@@ -119,7 +120,7 @@ void Signin::init()
     cf.beginSection("SigninServer");
     if (cf.hasKey("host") && cf.hasKey("port"))
     {
-        this->signinServerClient = new HttpClient(cf.value("host").toString(), cf.value("port").toInt());
+        this->signinServerClient = new SiginClient(cf.value("host").toString(), cf.value("port").toInt());
     }
     else
     {

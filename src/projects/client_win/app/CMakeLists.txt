@@ -28,8 +28,12 @@ set(CLIENT_WIN_SRC
 )
 
 set(HTTPCLIENT_SRC
-    httpclient/httpclient.h
-    httpclient/httpclient.cpp
+    httpclient/siginclient.h
+    httpclient/siginclient.cpp
+    httpclient/loginclient.h
+    httpclient/loginclient.cpp
+    httpclient/checknumberclient.h
+    httpclient/checknumberclient.cpp
 )
 
 #筛选显示

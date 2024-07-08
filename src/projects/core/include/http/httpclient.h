@@ -9,9 +9,6 @@ public:
 	HttpClient(std::string serverHost, unsigned int serverPort);
 	~HttpClient();
 
-	bool siginCheckNumber(std::string request, std::string& response);
-	bool loginCheckNumber(std::string request, std::string& response);
-	bool signin(std::string request, std::string& response);
 	bool callApi(std::string api, std::string request, std::string& response);
 };
 

@@ -34,10 +34,12 @@ set(PUGIXML_SRC
 set(HTTP_SRC
     ${INCLUDE_DIR}/http/httplib.h
     ${INCLUDE_DIR}/http/httpclientbase.h
-    ${INCLUDE_DIR}/http/httpserverbase.h
-    ${INCLUDE_DIR}/http/httpserverhandel.h
     ${SOURCEC_DIR}/http/httpclientbase.cpp
+    ${INCLUDE_DIR}/http/httpserverbase.h
     ${SOURCEC_DIR}/http/httpserverbase.cpp
+    ${INCLUDE_DIR}/http/httpserverhandel.h
+    ${INCLUDE_DIR}/http/httpclient.h
+    ${SOURCEC_DIR}/http/httpclient.cpp
 )
 
 set(UTIL_SRC

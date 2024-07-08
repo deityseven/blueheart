@@ -9,6 +9,11 @@
         "host" : "",
         "port" : 4453
     },
+    "LoginServer" :
+    {
+        "host" : "",
+        "port" : 4454
+    },
     "EmailSender" :
     {
         "senderEmail" : "",
