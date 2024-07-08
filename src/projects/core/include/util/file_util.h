@@ -19,6 +19,10 @@ public:
     // 参数：fileContent的值为文件内容
     // 参数：filePath的值为文件路径以及文件名
 	static void saveToText(const std::string& fileContent, const std::string& filePath);
+    // 概述：文件是否存在
+    // 参数：filePath的值为文件路径以及文件名
+    // 返回值：true 文件存在 false 文件不存在
+	static bool fileIsExist(const std::string& filePath);
     
 };
 

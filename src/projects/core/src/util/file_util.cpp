@@ -37,3 +37,7 @@ void FileUtil::saveToText(const std::string & fileContent, const std::string & f
     }
 }
 
+bool FileUtil::fileIsExist(const std::string &filePath)
+{
+    return PlatformUtil::access(filePath.c_str(), PlatformUtil::FileAuthority::file_exist);
+}
