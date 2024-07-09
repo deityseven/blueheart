@@ -12,6 +12,7 @@ public:
 	~ZiperProgram();
 
     bool zip(std::string filePath, std::string data, std::string& msg);
+    bool unZip(std::string filePath, std::string& msg);
 private:
     ExecutableProgram* ep;
 };

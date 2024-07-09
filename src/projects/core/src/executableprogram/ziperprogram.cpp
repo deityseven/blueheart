@@ -33,3 +33,16 @@ bool ZiperProgram::zip(std::string filePath, std::string data, std::string& msg)
 
     return this->ep->getExecResult(msg);
 }
+
+bool ZiperProgram::unZip(std::string filePath, std::string& msg)
+{
+    nlohmann::json jsonData;
+    jsonData["filePath"] = filePath;
+    jsonData["jsonData"] = "";
+
+    std::string arg = jsonData.dump();
+    this->ep->addArg("functionNeme", "Unzip");
+    this->ep->addArg("jsonData", arg);
+
+    return this->ep->getExecResult(msg);
+}

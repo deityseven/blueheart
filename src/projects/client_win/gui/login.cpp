@@ -42,7 +42,17 @@ void Login::checkUserInfoTimeout()
 {
     if(FileUtil::fileIsExist(".\\users\\blueheart.user"))
     {
-        
+        std::string ziperResponse;
+        ZiperProgram zp;
+
+        if (zp.unZip(".\\users\\blueheart.user", ziperResponse))
+        {
+            //跳转主页
+        }
+        else
+        {
+            QMessageBox::warning(this, "错误", QString::fromStdString(ziperResponse));
+        }
     }
 }
 
